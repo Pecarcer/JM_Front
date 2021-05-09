@@ -1,10 +1,11 @@
 
 <template>
   <div id="app">
-    <div id="nav">
+    <div id="nav"  v-if="isLogged">
       <router-link to="/">Home</router-link> |
       <router-link to="/about" v-if="isLogged">About</router-link>
       <router-link to="/login" v-else>Login</router-link>
+      |
       <button type="button" @click="logout()" v-if="isLogged">
         Logout
       </button>
@@ -12,6 +13,24 @@
     <router-view/>
   </div>
 </template>
+
+<!--
+<template>
+    <div v-if="isLogged">
+        <b-button v-b-toggle.sidebar-1><b-icon-arrow-bar-right></b-icon-arrow-bar-right>Menu</b-button>
+        <b-sidebar id="sidebar-1" title="Menu" shadow>
+          <div class="px-3 py-2">
+          <b-col lg="4" class="pb-2"><b-button size="lg"><router-link to="/">Home</router-link></b-button></b-col>
+          <b-col lg="4" class="pb-2"><b-button size="lg"><router-link to="/about">About</router-link></b-button></b-col>
+          <b-col lg="4" class="pb-2"><b-button size="lg" @click="logout()">Logout</b-button></b-col>
+          </div>
+        </b-sidebar>
+      </div>
+
+</template>
+
+-->
+
 
 <script>
 import { mapGetters } from 'vuex'
