@@ -1,4 +1,4 @@
-
+<!--
 <template>
   <div id="app">
     <div id="nav"  v-if="isLogged">
@@ -12,25 +12,29 @@
     </div>
     <router-view/>
   </div>
-</template>
+</template>-->
 
-<!--
 <template>
+<div id="app">
     <div v-if="isLogged">
-        <b-button v-b-toggle.sidebar-1><b-icon-arrow-bar-right></b-icon-arrow-bar-right>Menu</b-button>
-        <b-sidebar id="sidebar-1" title="Menu" shadow>
+        <b-button v-b-toggle.sidebar-1 class="btnmenu">Menu</b-button>
+        <b-sidebar id="sidebar-1" backdrop title="Menu" shadow>
           <div class="px-3 py-2">
-          <b-col lg="4" class="pb-2"><b-button size="lg"><router-link to="/">Home</router-link></b-button></b-col>
-          <b-col lg="4" class="pb-2"><b-button size="lg"><router-link to="/about">About</router-link></b-button></b-col>
-          <b-col lg="4" class="pb-2"><b-button size="lg" @click="logout()">Logout</b-button></b-col>
+          <b-col class="btnsidebar"><b-button block ><router-link to="/">Home</router-link></b-button></b-col>
+          <b-col class="btnsidebar"><b-button block><router-link to="/about">About</router-link></b-button></b-col>
+          <b-col class="btnsidebar"><b-button block><router-link to="/">Usuarios</router-link></b-button></b-col>
+          <b-col class="btnsidebar"><b-button block><router-link to="/">Juegos</router-link></b-button></b-col>
+          <b-col class="btnsidebar"><b-button block><router-link to="/">Reseñas</router-link></b-button></b-col>
+          <b-col class="btnsidebar"><b-button block><router-link to="/">Salas</router-link></b-button></b-col>
+          <b-col class="btnsidebar"><b-button block><router-link to="/">Partidas</router-link></b-button></b-col>
+          <b-col class="btnsidebar"><b-button block><router-link to="/">Perfil</router-link></b-button></b-col>
+          <b-col class="btnsidebar"><b-button block @click="logout()">Logout</b-button></b-col>
           </div>
         </b-sidebar>
       </div>
-
+      <router-view/>
+</div>
 </template>
-
--->
-
 
 <script>
 import { mapGetters } from 'vuex'
@@ -69,5 +73,18 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.btnmenu{
+  float: left;
+  margin: 10px;
+}
+
+.btnsidebar{
+  margin: 5px;
+}
+
+router-link{
+  color: white;
 }
 </style>
