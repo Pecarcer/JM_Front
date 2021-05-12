@@ -17,17 +17,65 @@ const routes = [
     meta: {
       auth: true
     },
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import('../views/About.vue')
   },
   {
     path: '/login',
     name: 'Login',
-    component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')
+    component: () => import('../views/Login.vue')
   },
   {
     path: '/register',
     name: 'Register',
     component: Register
+  },
+  {
+    path: '/users',
+    name: 'Users',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/Users.vue')
+  },
+  {
+    path: '/boardgames',
+    name: 'Boardgames',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/Boardgames.vue')
+  },
+  {
+    path: '/reviews',
+    name: 'Reviews',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/Reviews.vue')
+  },
+  {
+    path: '/rooms',
+    name: 'Rooms',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/Rooms.vue')
+  },
+  {
+    path: '/games',
+    name: 'Games',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/Games.vue')
+  },
+  {
+    path: '/myprofile',
+    name: 'Profile',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/Profile.vue')
   }
 ]
 

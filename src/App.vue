@@ -22,12 +22,12 @@
           <div class="px-3 py-2">
           <b-col class="btnsidebar"><b-button block ><router-link to="/">Home</router-link></b-button></b-col>
           <b-col class="btnsidebar"><b-button block><router-link to="/about">About</router-link></b-button></b-col>
-          <b-col class="btnsidebar"><b-button block><router-link to="/">Usuarios</router-link></b-button></b-col>
-          <b-col class="btnsidebar"><b-button block><router-link to="/">Juegos</router-link></b-button></b-col>
-          <b-col class="btnsidebar"><b-button block><router-link to="/">Reseñas</router-link></b-button></b-col>
-          <b-col class="btnsidebar"><b-button block><router-link to="/">Salas</router-link></b-button></b-col>
-          <b-col class="btnsidebar"><b-button block><router-link to="/">Partidas</router-link></b-button></b-col>
-          <b-col class="btnsidebar"><b-button block><router-link to="/">Perfil</router-link></b-button></b-col>
+          <b-col class="btnsidebar"><b-button block><router-link to="/users">Usuarios</router-link></b-button></b-col>
+          <b-col class="btnsidebar"><b-button block><router-link to="/boardgames">Juegos</router-link></b-button></b-col>
+          <b-col class="btnsidebar"><b-button block><router-link to="/reviews">Reseñas</router-link></b-button></b-col>
+          <b-col class="btnsidebar"><b-button block><router-link to="/rooms">Salas</router-link></b-button></b-col>
+          <b-col class="btnsidebar"><b-button block><router-link to="/games">Partidas</router-link></b-button></b-col>
+          <b-col class="btnsidebar"><b-button block><router-link to="/myprofile">Perfil</router-link></b-button></b-col>
           <b-col class="btnsidebar"><b-button block @click="logout()">Logout</b-button></b-col>
           </div>
         </b-sidebar>
