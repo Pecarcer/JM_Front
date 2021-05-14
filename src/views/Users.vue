@@ -1,5 +1,81 @@
-<template>
+<!--<template>
   <div class="about">
     <h1>Aquí los usuarios</h1>
   </div>
+</template>-->
+
+<template>
+  <div>
+    <h4 class="text-center">Usuarios</h4>
+    <br />
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nick</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Full name</th>
+          <th>Avatar</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="user in users" :key="user.id">
+          <td>{{ user.id }}</td>
+          <td>{{ user.nick }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role }}</td>
+          <td>{{ user.fullname }}</td>
+          <td>{{ user.avatar }}</td>
+
+          <td>
+            <div class="btn-group" role="group">
+              <router-link
+                :to="{ name: 'edituser', params: { id: user.id } }"
+                class="btn btn-primary"
+                >Editar
+              </router-link>
+              <button class="btn btn-danger" @click="deleteUser(user.id)">
+                borrar
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button
+      type="button"
+      class="btn btn-info"
+      @click="this.$router.push('/users/add')"
+    >
+      Añadir usuario
+    </button>
+  </div>
 </template>
+
+<script>
+
+import axios from "axios"
+
+export default {
+  data() {
+    return {
+      users: [],
+      url: "http://127.0.0.1:8000/api/users"
+    };
+  },
+  methods: {
+    getUsers(){
+      axios.get(this.url).then(data => {
+        this.users = data.data;
+      });
+    }
+  },
+  created(){
+    this.getUsers();
+  }
+ 
+};
+</script>
