@@ -36,8 +36,8 @@
                 class="btn btn-primary"
                 >Editar
               </router-link>
-              <button class="btn btn-danger" @click="deleteUser(user.id)">
-                borrar
+              <button class="btn btn-danger" @click="confirmarDelete(user.id)">
+                Borrar
               </button>
             </div>
           </td>
@@ -57,25 +57,52 @@
 
 <script>
 
-import axios from "axios"
+import axios from "axios";
 
-export default {
+export default { 
+
   data() {
     return {
       users: [],
-      url: "http://127.0.0.1:8000/api/users"
+      url: "http://127.0.0.1:8000/api/users",
     };
   },
   methods: {
-    getUsers(){
-      axios.get(this.url).then(data => {
+    getUsers() {
+      axios.get(this.url).then((data) => {
         this.users = data.data;
       });
+    },
+
+    deleteUser(idToDelete) {
+      axios
+        .delete("http://127.0.0.1:8000/api/users/delete/" + idToDelete)
+        .then(() => {
+          this.getUsers();
+        })
+        .catch((e) => {
+          alert(e);
+        });
+    },
+     confirmarDelete(idToDelete){
+      this.$confirm(
+        {
+          message: 'Are you sure?',
+          button: {
+            no: 'No',
+            yes: 'Yes'
+          },
+          callback: confirm => {
+            if(confirm){
+              this.deleteUser(idToDelete)
+            }
+          }
+        }
+      )
     }
   },
-  created(){
+  created() {
     this.getUsers();
-  }
- 
+  },
 };
 </script>

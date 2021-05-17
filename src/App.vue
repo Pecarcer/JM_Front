@@ -15,8 +15,9 @@
 </template>-->
 
 <template>
-<div id="app">
-    <div v-if="isLogged">
+  <div id="app">
+    <vue-confirm-dialog></vue-confirm-dialog>
+      <div v-if="isLogged">
         <b-button v-b-toggle.sidebar-1 class="btnmenu">Menu</b-button>
         <b-sidebar id="sidebar-1" backdrop title="Menu" shadow>
           <div class="px-3 py-2">
@@ -33,7 +34,7 @@
         </b-sidebar>
       </div>
       <router-view/>
-</div>
+  </div>
 </template>
 
 <script>
