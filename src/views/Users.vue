@@ -1,9 +1,3 @@
-<!--<template>
-  <div class="about">
-    <h1>Aquí los usuarios</h1>
-  </div>
-</template>-->
-
 <template>
   <div>
     <h4 class="text-center">Usuarios</h4>
@@ -48,9 +42,8 @@
     <button
       type="button"
       class="btn btn-info"
-      @click="this.$router.push('/users/add')"
-    >
-      Añadir usuario
+     >
+      <router-link to="/adduser">Añadir Usuario</router-link>
     </button>
   </div>
 </template>
@@ -76,7 +69,7 @@ export default {
 
     deleteUser(idToDelete) {
       axios
-        .delete("http://127.0.0.1:8000/api/users/delete/" + idToDelete)
+        .delete( this.url + "/delete/" + idToDelete)
         .then(() => {
           this.getUsers();
         })

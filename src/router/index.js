@@ -38,6 +38,14 @@ const routes = [
     component: () => import('../views/Users.vue')
   },
   {
+    path: '/adduser',
+    name: 'Adduser',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/AddUser.vue')
+  },
+  {
     path: '/boardgames',
     name: 'Boardgames',
     meta: {
