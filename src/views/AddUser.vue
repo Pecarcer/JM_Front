@@ -4,26 +4,26 @@
     <br />
     <div class="grey-text">
       <div class="four wide field">
-        <input type="text" name="nick" placeholder="Nick" />
+        <input v-model="nick" type="text" placeholder="Nick" />
       </div>
       <div class="four wide field">
-        <input type="email" name="email" placeholder="Email" />
+        <input type="email" v-model="email" placeholder="Email" />
       </div>
       <div class="four wide field">
-        <input type="password" name="password" placeholder="Contraseña" />
+        <input type="password" v-model="password" placeholder="Contraseña" />
       </div>
       <div class="four wide field">
         <input
           type="password"
-          name="conPassword"
+          v-model="password_confirmation"
           placeholder="Confirma Contraseña"
         />
       </div>
       <div class="four wide field">
-        <input type="text" name="fullname" placeholder="Nombre Completo" />
+        <input type="text" v-model="fullname" placeholder="Nombre Completo" />
       </div>
       <div class="four wide field">
-        <select name="role">
+        <select v-model="role">
           <option value="user" selected>Usuario</option>
           <option value="admin">Administrador</option>
         </select>
@@ -44,30 +44,31 @@ export default {
 
   data() {
     return {
-      url: "http://127.0.0.1:8000/api/users/add",
       nick: "",
       email: "",
       role: "",
       password: "",
+      password_confirmation: "",
       fullname: "",
     };
   },
-  methods:{
-     saveUser(){
-      axios.post(this.url,{ 
-          'nick':this.nick,
-          'email':this.email,
-          'role':this.role,
-          'password': this.password,
-          'fullname': this.fullname
-      }).then(
-        console.log("Se añadió el user")
-      )
-      .catch(function (error) {
-          console.log(error);
-      });
+  methods: {
+    saveUser() {
+      axios
+        .post("http://127.0.0.1:8000/api/users/add", {
+          nick: this.nick,
+          email: this.email,
+          role: this.role,
+          password: this.password,
+          password_confirmation: this.password_confirmation,
+          fullname: this.fullname,
+        })
+        .then()
+        .catch((e) => {
+          alert(e);
+        });
+    },
   },
-}
 };
 </script>
 
