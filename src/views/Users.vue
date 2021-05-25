@@ -25,11 +25,9 @@
 
           <td>
             <div class="btn-group" role="group">
-              <router-link
-                :to="{ name: 'edituser', params: { id: user.id } }"
-                class="btn btn-primary"
-                >Editar
-              </router-link>
+              <button class="btn btn-primary" @click="editUser(user.id)">
+                Editar
+              </button>
               <button class="btn btn-danger" @click="confirmarDelete(user.id)">
                 Borrar
               </button>
@@ -39,21 +37,16 @@
       </tbody>
     </table>
 
-    <button
-      type="button"
-      class="btn btn-info"
-     >
+    <button type="button" class="btn btn-info">
       <router-link to="/adduser">Añadir Usuario</router-link>
     </button>
   </div>
 </template>
 
 <script>
-
 import axios from "axios";
 
-export default { 
-
+export default {
   data() {
     return {
       users: [],
@@ -66,10 +59,14 @@ export default {
         this.users = data.data;
       });
     },
+    editUser(idToEdit) {
+      window.console.log("user edit " + idToEdit);
+      this.$router.push('/users/edit'+idToEdit)
+    },
 
     deleteUser(idToDelete) {
       axios
-        .delete( this.url + "/delete/" + idToDelete)
+        .delete(this.url + "/delete/" + idToDelete)
         .then(() => {
           this.getUsers();
         })
@@ -77,22 +74,20 @@ export default {
           alert(e);
         });
     },
-     confirmarDelete(idToDelete){
-      this.$confirm(
-        {
-          message: 'Are you sure?',
-          button: {
-            no: 'No',
-            yes: 'Yes'
-          },
-          callback: confirm => {
-            if(confirm){
-              this.deleteUser(idToDelete)
-            }
+    confirmarDelete(idToDelete) {
+      this.$confirm({
+        message: "Are you sure?",
+        button: {
+          no: "No",
+          yes: "Yes",
+        },
+        callback: (confirm) => {
+          if (confirm) {
+            this.deleteUser(idToDelete);
           }
-        }
-      )
-    }
+        },
+      });
+    },
   },
   created() {
     this.getUsers();

@@ -54,6 +54,7 @@ export default {
   },
   methods: {
     saveUser() {
+      let self = this;
       axios
         .post("http://127.0.0.1:8000/api/users/add", {
           nick: this.nick,
@@ -63,7 +64,9 @@ export default {
           password_confirmation: this.password_confirmation,
           fullname: this.fullname,
         })
-        .then()
+        .then(
+          self.$router.push('/users')
+        )
         .catch((e) => {
           alert(e);
         });
