@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import Register from '../views/Register.vue'
+import Home from '../views/PostViews/Home.vue'
+import Register from '../views/UnauthorizedViews/Register.vue'
 
 Vue.use(VueRouter)
 
@@ -22,7 +22,7 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('../views/Login.vue')
+    component: () => import('../views/UnauthorizedViews/Login.vue')
   },
   {
     path: '/register',
@@ -35,7 +35,7 @@ const routes = [
     meta: {
       auth: true
     },
-    component: () => import('../views/Users.vue')
+    component: () => import('../views/UserViews/Users.vue')
   },
   {
     path: '/adduser',
@@ -43,7 +43,7 @@ const routes = [
     meta: {
       auth: true
     },
-    component: () => import('../views/AddUser.vue')
+    component: () => import('../views/UserViews/AddUser.vue')
   },
     {
     path: '/users/edit/:id',
@@ -51,7 +51,7 @@ const routes = [
     meta: {
       auth: true
     },
-    component: () => import('../views/EditUser.vue')
+    component: () => import('../views/UserViews/EditUser.vue')
   },
   {
     path: '/boardgames',
@@ -59,7 +59,23 @@ const routes = [
     meta: {
       auth: true
     },
-    component: () => import('../views/Boardgames.vue')
+    component: () => import('../views/BoardgamesViews/Boardgames.vue')
+  },
+  {
+    path: '/addboardgame',
+    name: 'Addboardgame',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/BoardgamesViews/AddBoardgame.vue')
+  },
+  {
+    path: '/editboardgame',
+    name: 'EditBoardgame',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/BoardgamesViews/EditBoardgame.vue')
   },
   {
     path: '/reviews',
@@ -67,7 +83,7 @@ const routes = [
     meta: {
       auth: true
     },
-    component: () => import('../views/Reviews.vue')
+    component: () => import('../views/ReviewViews/Reviews.vue')
   },
   {
     path: '/rooms',
@@ -75,7 +91,7 @@ const routes = [
     meta: {
       auth: true
     },
-    component: () => import('../views/Rooms.vue')
+    component: () => import('../views/RoomViews/Rooms.vue')
   },
   {
     path: '/games',
@@ -83,7 +99,7 @@ const routes = [
     meta: {
       auth: true
     },
-    component: () => import('../views/Games.vue')
+    component: () => import('../views/GameViews/Games.vue')
   },
   {
     path: '/myprofile',
@@ -91,7 +107,7 @@ const routes = [
     meta: {
       auth: true
     },
-    component: () => import('../views/Profile.vue')
+    component: () => import('../views/UserViews/Profile.vue')
   }
 ]
 
