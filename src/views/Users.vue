@@ -60,13 +60,12 @@ export default {
       });
     },
     editUser(idToEdit) {
-      window.console.log("user edit " + idToEdit);
-      this.$router.push('/users/edit'+idToEdit)
+      this.$router.push('/users/edit/'+idToEdit)
     },
 
     deleteUser(idToDelete) {
       axios
-        .delete(this.url + "/delete/" + idToDelete)
+        .delete("/users/delete/" + idToDelete)
         .then(() => {
           this.getUsers();
         })

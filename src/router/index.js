@@ -45,6 +45,14 @@ const routes = [
     },
     component: () => import('../views/AddUser.vue')
   },
+    {
+    path: '/users/edit/:id',
+    name: 'Edituser',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/EditUser.vue')
+  },
   {
     path: '/boardgames',
     name: 'Boardgames',

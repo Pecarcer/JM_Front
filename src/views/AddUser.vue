@@ -56,7 +56,7 @@ export default {
     saveUser() {
       let self = this;
       axios
-        .post("http://127.0.0.1:8000/api/users/add", {
+        .post("/users/add", {
           nick: this.nick,
           email: this.email,
           role: this.role,
