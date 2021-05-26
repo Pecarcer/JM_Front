@@ -11,7 +11,7 @@
         <input type="text" v-model="creator" placeholder="Creadores" />
       </div>
       <div class="four wide field">
-        <input type="text" v-model="release" placeholder="Fecha de lanzamiento" />
+        <input type="date" v-model="release" placeholder="Fecha de lanzamiento" />
       </div>
       <div class="four wide field">
         <input type="text" v-model="min_num_players" placeholder="Número mínimo de jugadores" />
@@ -73,9 +73,11 @@ export default {
           publisher: this.publisher,
           image: this.image,
         })
-        .then(self.$router.push("/boardgames"))
-        .catch((e) => {
-          alert(e);
+        .then(
+          self.$router.push("/boardgames")
+          )
+        .catch((error) => {
+           console.error(error.response.data);
         });
     },
   },
