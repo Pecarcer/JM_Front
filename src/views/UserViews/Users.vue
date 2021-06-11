@@ -34,14 +34,14 @@
           :fields="fields"
           class="table table-bordered"
         >
-        
+          
 
-          <template #cell(acciones)="data">
+          <template v-slot:cell(acciones)="data">
             <div class="btn-group" role="group">
-              <button class="btn btn-primary" @click="editUser(data.id)">
+              <button class="btn btn-primary" @click="editUser(data.item.id)">
                 Editar
               </button>
-              <button class="btn btn-danger" @click="confirmarDelete(data.id)">
+              <button class="btn btn-danger" @click="confirmarDelete(data.item.id)">
                 Borrar
               </button>
             </div>
@@ -176,7 +176,8 @@ export default {
 
 <style scoped>
 th,
-.tablefooter, .newbtn {
+.tablefooter,
+.newbtn {
   text-align: center;
   color: white;
   background: green;
