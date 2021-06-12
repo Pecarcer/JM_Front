@@ -4,7 +4,6 @@
       <b-navbar-brand href="#">Usuarios</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
-        <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>
             <!-- poner avatar y nombre-->
@@ -16,64 +15,91 @@
     <b-container>
       <b-col></b-col>
       <b-col>
-        <b-pagination
+        <div class="cuadritobusqueda">
+          <b-col lg="6" class="my-1">
+            <b-form-group
+              label="Filter"
+              label-for="filter-input"
+              label-cols-sm="3"
+              label-align-sm="right"
+              label-size="sm"
+              class="mb-0"
+            >
+              <b-input-group size="sm">
+                <b-form-input
+                  id="filter-input"
+                  v-model="filter"
+                  type="search"
+                  placeholder="Type to Search"
+                ></b-form-input>
+
+                <b-input-group-append>
+                  <b-button :disabled="!filter" @click="filter = ''"
+                    >Clear</b-button
+                  >
+                </b-input-group-append>
+              </b-input-group>
+            </b-form-group>
+          </b-col>
+        </div>
+      </b-col>
+      <br />
+  <b-pagination
           v-model="currentPage"
           :total-rows="rows"
           :per-page="perPage"
           aria-controls="my-table"
-        ></b-pagination>
-
+          pills
+        >
+        </b-pagination>
+      <b-col>
         <b-table
+          id="table-transition-example"
+          thead-class="green-bg text-white rounded-top"
           striped
           hover
           borderless
-          fixed
           :per-page="perPage"
           :current-page="currentPage"
           :items="items"
           :fields="fields"
-          class="table table-bordered"
+          class="table rounded-circle"
+          :tbody-transition-props="transProps"
         >
-          
-
           <template v-slot:cell(acciones)="data">
             <div class="btn-group" role="group">
               <button class="btn btn-primary" @click="editUser(data.item.id)">
                 Editar
               </button>
-              <button class="btn btn-danger" @click="confirmarDelete(data.item.id)">
+              <button
+                class="btn btn-danger"
+                @click="confirmarDelete(data.item.id)"
+              >
                 Borrar
               </button>
             </div>
           </template>
-
-          <!--<td>
-                <div class="btn-group" role="group">
-                  <button class="btn btn-primary" @click="editUser(user.id)">
-                    Editar
-                  </button>
-                  <button
-                    class="btn btn-danger"
-                    @click="confirmarDelete(user.id)"
-                  >
-                    Borrar
-                  </button>
-                </div>
-              </td>
-            </tr>
-
-            <tr class="tablefooter">
-              <th class="bottomleft"></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th class="bottomright"></th>
-            </tr>-->
         </b-table>
       </b-col>
-      <b-col> </b-col>
+      <b-row align-v="center">
+      
+
+        <div class="pag">
+           Pag.
+        <b-form-group>
+         
+          <b-form-select
+            style="width: 75px"
+            id="per-page-select"
+            v-model="perPage"
+            :options="pageOptions"
+            size="sm"
+            
+          >
+          </b-form-select>
+        </b-form-group>
+        </div>
+      </b-row>
     </b-container>
 
     <b-button type="button" to="/adduser" class="newbtn">
@@ -92,38 +118,47 @@ export default {
       url: "http://127.0.0.1:8000/api/users",
       perPage: 5,
       currentPage: 1,
+      transProps: "flip-list",
+      pageOptions: [5, 10, 15, 20, 100],
       fields: [
         {
           key: "id",
           sortable: true,
+          tdClass: "thead",
         },
         {
           key: "nick",
           sortable: true,
           label: "Nick",
+          tdClass: "thead",
         },
         {
           key: "email",
           sortable: true,
+          tdClass: "thead",
         },
         {
           key: "role",
           sortable: true,
           label: "Rol",
+          tdClass: "thead",
         },
         {
           key: "fullname",
           sortable: true,
           label: "Nombre Completo",
+          tdClass: "thead",
         },
         {
           key: "avatar",
           sortable: false,
+          tdClass: "thead",
         },
         {
           key: "acciones",
           sortable: false,
           label: "Acciones",
+          tdClass: "thead",
         },
       ],
     };
@@ -174,8 +209,7 @@ export default {
 };
 </script>
 
-<style scoped>
-th,
+<style>
 .tablefooter,
 .newbtn {
   text-align: center;
@@ -204,5 +238,31 @@ table {
 .navbar.navbar-dark.bg-dark {
   background-color: green !important;
   border-radius: 25px;
+}
+
+.thead {
+  max-width: 300px;
+  padding: 20px;
+}
+
+.cuadritobusqueda {
+  background-color: green;
+  color: white;
+  border-radius: 25px;
+}
+
+.green-bg {
+  background-color: green;
+  border-radius: 25px;
+}
+
+.form-group{
+  padding: 20px;
+}
+
+.pag{
+  background: green;
+  color: white;
+  border-radius: 50px;
 }
 </style>
