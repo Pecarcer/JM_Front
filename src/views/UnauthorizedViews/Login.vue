@@ -1,40 +1,66 @@
-
 <template>
-  <div>
-    <h1>Login</h1>
-    <form @submit.prevent="login">
-      <input type="email" name="email" v-model="email">
-      <input type="password" name="password" v-model="password">
-      <button type="submit">Login</button>
-    </form>
-  </div>
+  <b-row>
+    <b-col></b-col>
+    <b-col>
+      <div class="card">
+        <form @submit.prevent="login">
+          <h3>Login</h3>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email"  v-model="email" class="form-control form-control-lg" />
+          </div>
+
+          <div class="form-group">
+            <label>Contraseña</label>
+            <input type="password" class="form-control form-control-lg" name="password" v-model="password" />
+          </div>
+
+          <button type="submit" class="btn btn-lg btn-block">
+            Acceder
+          </button>
+        </form>
+      </div>
+    </b-col>
+    <b-col></b-col>
+  </b-row>
 </template>
 
 <script>
+import "bootstrap/dist/css/bootstrap.min.css";
+
 export default {
-  data () {
+  data() {
     return {
-      email: '',
-      password: ''
-    }
+      email: "",
+      password: "",
+    };
   },
 
   methods: {
-    login () {
+    login() {
       this.$store
-        .dispatch('login', {
+        .dispatch("login", {
           email: this.email,
-          password: this.password
+          password: this.password,
         })
         .then(() => {
-          this.$router.push({ name: 'Home' })
+          this.$router.push({ name: "Home" });
         })
-        .catch(err => {
-          console.log(err)
-        })
-    }
-  }
-}
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+};
 </script>
 
-
+<style scoped>
+.card{
+  margin: 35px;
+  border: 0;
+}
+button{
+  background-color: green;
+  color: white;
+}
+</style>
