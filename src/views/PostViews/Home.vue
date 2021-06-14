@@ -1,12 +1,24 @@
 <template>
   <div class="home">
     <div v-if="isLogged">
-      <h1>¡Bienvenido!</h1>
-      <p>Estás logeado</p>
+    <b-navbar toggleable="lg" type="dark" variant="dark">
+      <b-navbar-brand>Inicio</b-navbar-brand>
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item-dropdown right>
+            <!-- poner avatar y nombre-->
+          </b-nav-item-dropdown>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
       <!-- Aquí mostraremos los blogposts de la web-->
     </div>
+
+
+
     <div class="md-card md-primary md-theme-demo-light" v-else>
-      <div>
+      <div >
         <br /><br /><br />
         <h1>¡Hola!</h1>
         <h2>
@@ -22,6 +34,7 @@
           <router-link to="/login">aquí!</router-link>
         </p>
       </div>
+  
     </div>
   </div>
 </template>
@@ -41,3 +54,7 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+</style>
