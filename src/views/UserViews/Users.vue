@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-brand href="#">Usuarios</b-navbar-brand>
+      <b-navbar-brand>Usuarios</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
@@ -13,46 +13,82 @@
     </b-navbar>
     <br />
     <b-container>
-      <b-col></b-col>
-      <b-col>
-        <div class="cuadritobusqueda">
-          <b-col lg="6" class="my-1">
-            <b-form-group
-              label="Filter"
-              label-for="filter-input"
-              label-cols-sm="3"
-              label-align-sm="right"
-              label-size="sm"
-              class="mb-0"
-            >
-              <b-input-group size="sm">
-                <b-form-input
-                  id="filter-input"
-                  v-model="filter"
-                  type="search"
-                  placeholder="Type to Search"
-                ></b-form-input>
+      <b-row>
+        <b-col lg="6" class="my-1">
+          <b-form-group
+            label="Buscar"
+            label-for="filter-input"
+            label-cols-sm="3"
+            label-align-sm="right"
+            label-size="sm"
+            class="mb-0"
+          >
+            <b-input-group size="sm">
+              <b-form-input
+                id="filter-input"
+                v-model="filter"
+                type="search"
+                placeholder=""
+              ></b-form-input>
 
-                <b-input-group-append>
-                  <b-button :disabled="!filter" @click="filter = ''"
-                    >Clear</b-button
-                  >
-                </b-input-group-append>
-              </b-input-group>
-            </b-form-group>
-          </b-col>
-        </div>
-      </b-col>
-      <br />
-  <b-pagination
-          v-model="currentPage"
-          :total-rows="rows"
-          :per-page="perPage"
-          aria-controls="my-table"
-          pills
-        >
-        </b-pagination>
-      <b-col>
+              <b-input-group-append>
+                <b-button class="btnlimpiar bg-success text-white" :disabled="!filter" @click="filter = ''"
+                  >Limpiar</b-button
+                >
+              </b-input-group-append>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+
+        <b-col lg="6" class="my-1">
+          <b-form-group
+            v-model="sortDirection"
+            label="Filtrar por"
+            description="No marques ninguno para buscar en todos los registros"
+            label-cols-sm="3"
+            label-align-sm="right"
+            label-size="sm"
+            class="mb-0"
+            v-slot="{ ariaDescribedby }"
+          >
+            <b-form-checkbox-group
+              v-model="filterOn"
+              :aria-describedby="ariaDescribedby"
+              class="mt-1"
+            >
+              <b-form-checkbox value="nick">Nick</b-form-checkbox>
+              <b-form-checkbox value="email">Email</b-form-checkbox>
+              <b-form-checkbox value="fullname">Nombre</b-form-checkbox>
+            </b-form-checkbox-group>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="rows"
+            :per-page="perPage"
+            aria-controls="my-table"
+            pills
+          >
+          </b-pagination>
+        </b-col>
+        <b-col>
+          <b-form-group >
+            <b-form-select
+              style="width: 75px"
+              id="per-page-select"
+              v-model="perPage"
+              :options="pageOptions"
+              size="sm"
+              class="float-right"
+            >
+            </b-form-select>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
         <b-table
           id="table-transition-example"
           thead-class="green-bg text-white rounded-top"
@@ -65,6 +101,9 @@
           :fields="fields"
           class="table rounded-circle"
           :tbody-transition-props="transProps"
+          :filter="filter"
+          :filter-included-fields="filterOn"
+          @filtered="onFiltered"
         >
           <template v-slot:cell(acciones)="data">
             <div class="btn-group" role="group">
@@ -80,25 +119,6 @@
             </div>
           </template>
         </b-table>
-      </b-col>
-      <b-row align-v="center">
-      
-
-        <div class="pag">
-           Pag.
-        <b-form-group>
-         
-          <b-form-select
-            style="width: 75px"
-            id="per-page-select"
-            v-model="perPage"
-            :options="pageOptions"
-            size="sm"
-            
-          >
-          </b-form-select>
-        </b-form-group>
-        </div>
       </b-row>
     </b-container>
 
@@ -118,7 +138,7 @@ export default {
       url: "http://127.0.0.1:8000/api/users",
       perPage: 5,
       currentPage: 1,
-      transProps: "flip-list",
+      transProps: { name: "flip-list" },
       pageOptions: [5, 10, 15, 20, 100],
       fields: [
         {
@@ -161,8 +181,11 @@ export default {
           tdClass: "thead",
         },
       ],
+      filter: null,
+      filterOn: [],
     };
   },
+
   methods: {
     getUsers() {
       axios.get(this.url).then((data) => {
@@ -197,6 +220,11 @@ export default {
         },
       });
     },
+    onFiltered(filteredItems) {
+        // Trigger pagination to update the number of buttons/pages due to filtering
+        this.totalRows = filteredItems.length
+        this.currentPage = 1
+      }
   },
   created() {
     this.getUsers();
@@ -204,6 +232,14 @@ export default {
   computed: {
     rows() {
       return this.items.length;
+    },
+    sortOptions() {
+      // Create an options list from our fields
+      return this.fields
+        .filter((f) => f.sortable)
+        .map((f) => {
+          return { text: f.label, value: f.key };
+        });
     },
   },
 };
@@ -215,19 +251,9 @@ export default {
   text-align: center;
   color: white;
   background: green;
+  margin: 20px;
 }
-.rightth {
-  border-top-right-radius: 25px;
-}
-.leftth {
-  border-top-left-radius: 25px;
-}
-.bottomleft {
-  border-bottom-left-radius: 25px;
-}
-.bottomright {
-  border-bottom-right-radius: 25px;
-}
+
 col {
   border: none;
 }
@@ -237,7 +263,7 @@ table {
 
 .navbar.navbar-dark.bg-dark {
   background-color: green !important;
-  border-radius: 25px;
+  border-radius: 25px 0px 0px 25px;
 }
 
 .thead {
@@ -245,24 +271,22 @@ table {
   padding: 20px;
 }
 
+/*
 .cuadritobusqueda {
   background-color: green;
   color: white;
-  border-radius: 25px;
-}
+}*/
 
 .green-bg {
   background-color: green;
-  border-radius: 25px;
 }
 
-.form-group{
-  padding: 20px;
-}
-
-.pag{
+.pag {
   background: green;
   color: white;
-  border-radius: 50px;
+}
+
+btn{
+  background-color: green;
 }
 </style>

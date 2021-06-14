@@ -64,6 +64,7 @@ export default {
 .btnmenu{
   float: left;
   margin: 10px;
+  background-color: green;
 }
 
 .btnsidebar{
@@ -73,4 +74,9 @@ export default {
 router-link{
   color: white;
 }
+
+#sidebar-1{
+  background-color: green;
+}
+
 </style>
