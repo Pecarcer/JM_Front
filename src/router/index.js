@@ -103,12 +103,21 @@ const routes = [
   },
   {
     path: '/myprofile',
+    name: 'Myprofile',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/UserViews/OwnProfile.vue')
+  },
+  {
+    path: '/users/profile/:id',
     name: 'Profile',
     meta: {
       auth: true
     },
     component: () => import('../views/UserViews/Profile.vue')
-  }
+  },
+
 ]
 
 const router = new VueRouter({

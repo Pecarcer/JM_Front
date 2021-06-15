@@ -92,7 +92,7 @@
       </b-row>
       <b-row>
         <b-table
-          id="table-transition-example"
+         
           thead-class="green-bg text-white rounded-top"
           striped
           hover
@@ -129,9 +129,22 @@
           </template>
 
           <template v-slot:cell(perfil)="data">
-            <button class="btn btn-success" @click="visitProfile(data.item.id)">
-              Visitar
-            </button>
+            <div v-if="data.item.id == currentUser.id">
+               <button
+                class="btn btn-success"
+                @click="visitOwnProfile()"
+              >
+                Visitar
+              </button>
+            </div>
+            <div v-else>
+              <button
+                class="btn btn-success"
+                @click="visitProfile(data.item.id)"
+              >
+                Visitar
+              </button>
+            </div>
           </template>
         </b-table>
       </b-row>
@@ -254,6 +267,9 @@ export default {
     visitProfile(idToVisit) {
       this.$router.push("/users/profile/" + idToVisit);
     },
+    visitOwnProfile(){
+      this.$router.push("/myprofile")
+    }
   },
 
   created() {
