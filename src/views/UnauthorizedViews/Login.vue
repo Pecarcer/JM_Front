@@ -1,28 +1,52 @@
 <template>
-  <b-row>
-    <b-col></b-col>
-    <b-col>
-      <div class="card">
-        <form @submit.prevent="login">
-          <h3>Login</h3>
-          <div class="form-group">
-            <label>Email</label>
-            <input type="email" name="email"  v-model="email" class="form-control form-control-lg" />
-          </div>
+  <div>
+    <b-row>
+      <b-col></b-col>
+      <b-col class="alert">
+        <b-alert variant="danger" :show="showAlert">
+          Credenciales incorrectas
+        </b-alert>
+      </b-col>
+      <b-col></b-col>
+    </b-row>
+    <b-row>
+      <b-col></b-col>
+      <b-col>
+        <div class="card">
+          <form @submit.prevent="login">
+            <h3>Login</h3>
+            <div class="form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                name="email"
+                v-model="email"
+                class="form-control form-control-lg"
+              />
+            </div>
 
-          <div class="form-group">
-            <label>Contraseña</label>
-            <input type="password" class="form-control form-control-lg" name="password" v-model="password" />
-          </div>
+            <div class="form-group">
+              <label>Contraseña</label>
+              <input
+                type="password"
+                class="form-control form-control-lg"
+                name="password"
+                v-model="password"
+              />
+            </div>
 
-          <button type="submit" class="btn btn-lg btn-block">
-            Acceder
-          </button>
-        </form>
-      </div>
-    </b-col>
-    <b-col></b-col>
-  </b-row>
+            <button type="submit" class="btn btn-lg btn-block">
+              Acceder
+            </button>
+            <b-button class="btn btn-lg btn-block" to="/">
+              Volver
+            </b-button>
+          </form>
+        </div>
+      </b-col>
+      <b-col></b-col>
+    </b-row>
+  </div>
 </template>
 
 <script>
@@ -33,6 +57,7 @@ export default {
     return {
       email: "",
       password: "",
+      showAlert: false,
     };
   },
 
@@ -48,6 +73,7 @@ export default {
         })
         .catch((err) => {
           console.log(err);
+          this.showAlert = true;
         });
     },
   },
@@ -55,12 +81,15 @@ export default {
 </script>
 
 <style scoped>
-.card{
+.card {
   margin: 35px;
   border: 0;
 }
-button{
+button {
   background-color: green;
   color: white;
+}
+.alert{
+  margin: 5px;
 }
 </style>

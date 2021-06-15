@@ -6,6 +6,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
+import moment from 'vue-moment';
 
 Vue.config.productionTip = false
 
@@ -13,16 +14,17 @@ import './plugins/bootstrap-vue'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
+import VueMeta from 'vue-meta'
 import VueConfirmDialog from 'vue-confirm-dialog'
- 
+
 Vue.use(VueConfirmDialog)
 Vue.component('vue-confirm-dialog', VueConfirmDialog.default)
-
-
 Vue.use(BootstrapVue)
-// Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
+Vue.use(moment)
+
+
+Vue.use(VueMeta)
 
 new Vue({
   router,

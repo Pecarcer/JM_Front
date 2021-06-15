@@ -5,9 +5,9 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
-          <b-nav-item-dropdown right>
-            <!-- poner avatar y nombre-->
-          </b-nav-item-dropdown>
+          <b-navbar-brand right>
+            {{ this.currentUser.nick }}
+          </b-navbar-brand>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -32,7 +32,10 @@
               ></b-form-input>
 
               <b-input-group-append>
-                <b-button class="btnlimpiar bg-success text-white" :disabled="!filter" @click="filter = ''"
+                <b-button
+                  class="btnlimpiar bg-success text-white"
+                  :disabled="!filter"
+                  @click="filter = ''"
                   >Limpiar</b-button
                 >
               </b-input-group-append>
@@ -42,7 +45,6 @@
 
         <b-col lg="6" class="my-1">
           <b-form-group
-            v-model="sortDirection"
             label="Filtrar por"
             description="No marques ninguno para buscar en todos los registros"
             label-cols-sm="3"
@@ -75,7 +77,7 @@
           </b-pagination>
         </b-col>
         <b-col>
-          <b-form-group >
+          <b-form-group>
             <b-form-select
               style="width: 75px"
               id="per-page-select"
@@ -100,9 +102,9 @@
           :items="items"
           :fields="fields"
           class="table rounded-circle"
-          :tbody-transition-props="transProps"
           :filter="filter"
           :filter-included-fields="filterOn"
+          show-empty
           @filtered="onFiltered"
         >
           <template v-slot:cell(acciones)="data">
@@ -110,13 +112,26 @@
               <button class="btn btn-primary" @click="editUser(data.item.id)">
                 Editar
               </button>
-              <button
-                class="btn btn-danger"
-                @click="confirmarDelete(data.item.id)"
-              >
-                Borrar
-              </button>
+              <div v-if="data.item.id != currentUser.id">
+                <button
+                  class="btn btn-danger"
+                  @click="confirmarDelete(data.item.id)"
+                >
+                  Borrar
+                </button>
+              </div>
+              <div v-else>
+                <button class="btn btn-danger" disabled>
+                  Borrar
+                </button>
+              </div>
             </div>
+          </template>
+
+          <template v-slot:cell(perfil)="data">
+            <button class="btn btn-success" @click="visitProfile(data.item.id)">
+              Visitar
+            </button>
           </template>
         </b-table>
       </b-row>
@@ -130,16 +145,22 @@
 
 <script>
 import axios from "axios";
+import "../../store/index.js";
 
 export default {
+  metaInfo: {
+    title: "Usuarios | JuegosMesapp",
+  },
   data() {
     return {
       items: [],
       url: "http://127.0.0.1:8000/api/users",
       perPage: 5,
       currentPage: 1,
-      transProps: { name: "flip-list" },
+      SortBy: "",
       pageOptions: [5, 10, 15, 20, 100],
+      filter: null,
+      filterOn: [],
       fields: [
         {
           key: "id",
@@ -170,7 +191,7 @@ export default {
           tdClass: "thead",
         },
         {
-          key: "avatar",
+          key: "perfil",
           sortable: false,
           tdClass: "thead",
         },
@@ -181,8 +202,6 @@ export default {
           tdClass: "thead",
         },
       ],
-      filter: null,
-      filterOn: [],
     };
   },
 
@@ -221,18 +240,33 @@ export default {
       });
     },
     onFiltered(filteredItems) {
-        // Trigger pagination to update the number of buttons/pages due to filtering
-        this.totalRows = filteredItems.length
-        this.currentPage = 1
-      }
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.rows = filteredItems.length;
+
+      /*
+      console.log("total filtrados");
+      console.log(filteredItems.length);
+      console.log("numero que debería ser igual que el anterior");
+      console.log(this.rows); */
+
+      this.currentPage = 1;
+    },
+    visitProfile(idToVisit) {
+      this.$router.push("/users/profile/" + idToVisit);
+    },
   },
+
   created() {
     this.getUsers();
+    this.rows = this.items.length;
+    this.currentUser = JSON.parse(localStorage.user).user;
   },
+
   computed: {
     rows() {
       return this.items.length;
     },
+
     sortOptions() {
       // Create an options list from our fields
       return this.fields
@@ -241,6 +275,10 @@ export default {
           return { text: f.label, value: f.key };
         });
     },
+  },
+  mounted() {
+    // Set the initial number of items
+    this.rows = this.items.length;
   },
 };
 </script>
@@ -271,12 +309,6 @@ table {
   padding: 20px;
 }
 
-/*
-.cuadritobusqueda {
-  background-color: green;
-  color: white;
-}*/
-
 .green-bg {
   background-color: green;
 }
@@ -286,7 +318,7 @@ table {
   color: white;
 }
 
-btn{
+btn {
   background-color: green;
 }
 </style>

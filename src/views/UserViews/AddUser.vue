@@ -1,40 +1,92 @@
 <template>
-  <form>
-    <p class="h4 text-center mb-4">Añadir User</p>
-    <br />
-    <div class="grey-text">
-      <div class="four wide field">
-        <input v-model="nick" type="text" placeholder="Nick" />
-      </div>
-      <div class="four wide field">
-        <input type="email" v-model="email" placeholder="Email" />
-      </div>
-      <div class="four wide field">
-        <input type="password" v-model="password" placeholder="Contraseña" />
-      </div>
-      <div class="four wide field">
-        <input
-          type="password"
-          v-model="password_confirmation"
-          placeholder="Confirma Contraseña"
-        />
-      </div>
-      <div class="four wide field">
-        <input type="text" v-model="fullname" placeholder="Nombre Completo" />
-      </div>
-      <div class="four wide field">
-        <select v-model="role">
-          <option value="user" selected>Usuario</option>
-          <option value="admin">Administrador</option>
-        </select>
-      </div>
-    </div>
-    <br />
-    <div class="text-center">
-      <button color="primary" @click="saveUser()">Añadir</button>
-    </div>
-  </form>
+  <div>
+    <b-navbar toggleable="lg" type="dark" variant="dark">
+      <b-navbar-brand>Añadir Usuario</b-navbar-brand>
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav class="ml-auto">
+        <b-navbar-brand right>
+            {{ this.currentUser.nick }}
+          </b-navbar-brand>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+    <b-row>
+      <b-col></b-col>
+      <b-col>
+        <div class="card">
+          <form>
+            <div class="form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                name="email"
+                v-model="email"
+                class="form-control form-control-lg"
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Nombre Completo</label>
+              <input
+                type="text"
+                name="fullname"
+                v-model="fullname"
+                class="form-control form-control-lg"
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Nick</label>
+              <input
+                type="text"
+                name="nick"
+                v-model="nick"
+                class="form-control form-control-lg"
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Contraseña</label>
+              <input
+                type="password"
+                class="form-control form-control-lg"
+                name="password"
+                v-model="password"
+              />
+            </div>
+            <div class="form-group">
+              <label>Confirma la contraseña</label>
+              <input
+                type="password"
+                class="form-control form-control-lg"
+                name="password_confirmation"
+                v-model="password_confirmation"
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Selecciona rol</label>
+              <select v-model="role" class="form-control form-control-lg">
+                <option value="user" selected>Usuario</option>
+                <option value="admin">Administrador</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-lg btn-block" @click="saveUser()">
+              Añadir
+            </button>
+            <b-button class="btn btn-lg btn-block" to="/users">
+              Volver
+            </b-button>
+          </form>
+        </div>
+      </b-col>
+      <b-col></b-col>
+    </b-row>
+  </div>
 </template>
+
 
 <script>
 import axios from "axios";
@@ -64,15 +116,25 @@ export default {
           password_confirmation: this.password_confirmation,
           fullname: this.fullname,
         })
-        .then(
-          self.$router.push('/users')
-        )
+        .then(self.$router.push("/users"))
         .catch((e) => {
           alert(e);
         });
     },
   },
+    created() {
+    this.currentUser = JSON.parse(localStorage.user).user;
+  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.card {
+  margin: 35px;
+  border: 0;
+}
+button {
+  background-color: green;
+  color: white;
+}
+</style>

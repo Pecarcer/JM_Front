@@ -79,4 +79,9 @@ router-link{
   background-color: green;
 }
 
+.navbar.navbar-dark.bg-dark {
+  background-color: green !important;
+  border-radius: 25px 0px 0px 25px;
+}
+
 </style>
