@@ -5,14 +5,14 @@
         <b-button v-b-toggle.sidebar-1 class="btnmenu">Menu</b-button>
         <b-sidebar id="sidebar-1" backdrop title="Menu" shadow>
           <div class="px-3 py-2">
-          <b-col class="btnsidebar"><b-button block variant="outline-primary" size="lg" to="/">Inicio</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block variant="outline-primary" size="lg" to="/users">Usuarios</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block variant="outline-primary" size="lg" to="/boardgames">Juegos</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block variant="outline-primary" size="lg" to="/reviews">Reseñas</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block variant="outline-primary" size="lg" to="/rooms">Salas</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block variant="outline-primary" size="lg" to="/games">Partidas</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block variant="outline-primary" size="lg" to="/myprofile">Perfil</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block variant="outline-primary" size="lg" to="/about">About</b-button></b-col>
+          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/">Inicio</b-button></b-col>
+                    <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/myprofile">Perfil</b-button></b-col>
+          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/users">Usuarios</b-button></b-col>
+          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/boardgames">Juegos</b-button></b-col>
+          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/reviews">Reseñas</b-button></b-col>
+          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/rooms">Salas</b-button></b-col>
+          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/games">Partidas</b-button></b-col>
+          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/about">About</b-button></b-col>
           <b-col class="btnsidebar"><b-button block @click="logout()" variant="danger" size="lg">Logout</b-button></b-col>
           </div>
         </b-sidebar>

@@ -1,5 +1,4 @@
 <template>
-  <!--<h1>Este es tu propio perfil</h1>-->
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-navbar-brand>Mi perfil</b-navbar-brand>
@@ -27,6 +26,17 @@
             </b-card-text>
           </b-card>
 
+           <b-card
+            tag="article"
+            style="max-width: 20rem;"
+            class="mb-2"
+            bg-variant="success"
+          >
+            <b-card-text>
+              Email <span class="valor">{{ this.currentUser.email }} </span>
+            </b-card-text>
+          </b-card>
+
           <b-card
             tag="article"
             style="max-width: 20rem;"
@@ -34,7 +44,7 @@
             bg-variant="success"
           >
             <b-card-text>
-              Nombre Completo <br /><br /><span class="valor"
+              Nombre <span class="valor"
                 >{{ this.currentUser.fullname }}
               </span>
             </b-card-text>
@@ -58,7 +68,7 @@
             bg-variant="success"
           >
             <b-card-text>
-              Usuario desde
+              Registrado en
               <span class="valor"
                 >{{ this.currentUser.created_at | moment("DD/MM/YYYY") }}
               </span>
@@ -67,6 +77,7 @@
           <b-button type="button" to="/editMyself" class="newbtn">
             Editar Datos
           </b-button>
+          <div class="divider div-transparent div-stopper"></div>
         </b-col>
         <b-col></b-col>
       </b-row>
@@ -75,16 +86,17 @@
         <b-col>
           <b-table
             striped
+            show-empty
             hover
             :items="reviews"
-            :fields="fields"
+            :fields="fieldsReview"
             caption-top
             thead-class="green-bg text-white rounded-top"
           >
-            <template #table-caption>Reseñas del Usuario</template>
+            <template #table-caption>Tus reseñas</template>
 
             <template v-slot:cell(verJuego)="data">
-                <button
+              <button
                 class="btn btn-success"
                 @click="visitGamePage(data.boardgame_id)"
               >
@@ -92,24 +104,40 @@
               </button>
             </template>
 
-      <template v-slot:cell(created_at)="data">
-             {{ data.item.created_at | moment("DD/MM/YYYY") }}
+            <template v-slot:cell(created_at)="data">
+              {{ data.item.created_at | moment("DD/MM/YYYY") }}
             </template>
-
           </b-table>
 
+          <b-table
+            striped
+            hover
+            :items="gamesByUser"
+            :fields="fieldsGamesByUser"
+            caption-top
+            show-empty
+            thead-class="green-bg text-white rounded-top"
+          >
+            <template #table-caption>Tus partidas creadas</template>
+            <template v-slot:cell(created_at)="data">
+              {{ data.item.created_at | moment("DD/MM/YYYY") }}
+            </template>
+          </b-table>
 
-
-
-          <div class="divider div-transparent div-stopper"></div>
-          Partidas creadas por el Usuario
-
-
-
-
-
-          <div class="divider div-transparent div-stopper"></div>
-          Partidas en las que participó el usuario
+          <b-table
+            striped
+            hover
+            :items="gamesWithUser"
+            :fields="fieldsGamesWithUser"
+            caption-top
+            show-empty
+            thead-class="green-bg text-white rounded-top"
+          >
+            <template #table-caption>Partidas en las que participaste</template>
+            <template v-slot:cell(created_at)="data">
+              {{ data.item.created_at | moment("DD/MM/YYYY") }}
+            </template>
+          </b-table>
         </b-col>
       </b-row>
     </b-container>
@@ -129,37 +157,73 @@ export default {
       reviews: [],
       gamesByUser: [],
       gamesWithUser: [],
-      fields: [
+      fieldsReview: [
         {
           key: "id",
-          tdClass: "text-center"
+          tdClass: "text-center",
         },
         {
           key: "boardgameName",
           sortable: true,
           label: "Juego",
-          tdClass: "text-center"
+          tdClass: "text-center",
         },
         {
           key: "score",
           sortable: true,
           label: "Nota",
-          tdClass: "text-center"
+          tdClass: "text-center",
         },
         {
           key: "opinion",
-          tdClass: "text-center"
+          tdClass: "text-center",
         },
         {
           key: "created_at",
           sortable: true,
           label: "Fecha",
-          tdClass: "text-center"
+          tdClass: "text-center",
         },
         {
           key: "verJuego",
           tdClass: "text-center",
           label: "",
+        },
+      ],
+      fieldsGamesByUser: [
+        {
+          key: "id",
+          tdClass: "text-center",
+        },
+        {
+          key: "boardgameName",
+          sortable: true,
+          label: "Juego",
+          tdClass: "text-center",
+        },
+        {
+          key: "created_at",
+          sortable: true,
+          label: "Fecha",
+          tdClass: "text-center",
+        },
+      ],
+      fieldsGamesWithUser: [
+        {
+          key: "id",
+          tdClass: "text-center",
+        },
+        {
+          key: "boardgameName",
+          sortable: true,
+          label: "Juego",
+          tdClass: "text-center",
+        },
+        {
+          key: "created_at",
+          sortable: true,
+          label: "Fecha",
+          tdClass: "text-center",
         },
       ],
     };
@@ -173,18 +237,37 @@ export default {
 
       axios.get(this.urlReviews).then((data) => {
         this.reviews = data.data;
-        console.log(data);
       });
     },
-    getGamesByUser() {},
-    getGamesWithUser() {},
+    getGamesByUser() {
+      this.idToSearch = this.currentUser.id;
+      this.urlGamesByUser = "http://127.0.0.1:8000/api/games/madeby/";
+      this.urlGamesByUser = this.urlGamesByUser.concat(
+        this.idToSearch.toString()
+      );
+
+      axios.get(this.urlGamesByUser).then((data) => {
+        this.gamesByUser = data.data;
+      });
+    },
+    getGamesWithUser() {
+      this.idToSearch = this.currentUser.id;
+      this.urlGamesWithUser = "http://127.0.0.1:8000/api/players/with/";
+      this.urlGamesWithUser = this.urlGamesWithUser.concat(
+        this.idToSearch.toString()
+      );
+
+      axios.get(this.urlGamesWithUser).then((data) => {
+        this.gamesWithUser = data.data;
+      });
+    },
   },
 
   created() {
     this.currentUser = JSON.parse(localStorage.user).user;
     this.getReviews();
-    //this.getGamesByUser();
-    //this.getGamesWithUser();
+    this.getGamesByUser();
+    this.getGamesWithUser();
   },
 
   computed: {},
