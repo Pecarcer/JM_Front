@@ -109,9 +109,19 @@
         >
           <template v-slot:cell(acciones)="data">
             <div class="btn-group" role="group">
+
+              <div v-if="data.item.id != currentUser.id">
               <button class="btn btn-primary" @click="editUser(data.item.id)">
                 Editar
               </button>
+              </div>
+              <div v-else>
+                <button class="btn btn-primary" @click="goEditSelf()">
+                Editar
+              </button>
+              </div>
+
+
               <div v-if="data.item.id != currentUser.id">
                 <button
                   class="btn btn-danger"
@@ -269,6 +279,9 @@ export default {
     },
     visitOwnProfile(){
       this.$router.push("/myprofile")
+    },
+    goEditSelf(){
+      this.$router.push("/editMyself")
     }
   },
 
@@ -335,6 +348,9 @@ table {
 }
 
 btn {
+  background-color: green;
+}
+b-button{
   background-color: green;
 }
 </style>

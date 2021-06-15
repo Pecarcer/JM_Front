@@ -117,6 +117,14 @@ const routes = [
     },
     component: () => import('../views/UserViews/Profile.vue')
   },
+  {
+    path: '/editMyself',
+    name: 'EditMyself',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/UserViews/EditMyself.vue')
+  },
 
 ]
 

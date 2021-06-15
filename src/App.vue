@@ -2,11 +2,11 @@
   <div id="app">
     <vue-confirm-dialog></vue-confirm-dialog>
       <div v-if="isLogged">
-        <b-button v-b-toggle.sidebar-1 class="btnmenu">Menu</b-button>
+        <b-button v-b-toggle.sidebar-1 class="btnmenu" variant="success">Menu</b-button>
         <b-sidebar id="sidebar-1" backdrop title="Menu" shadow>
           <div class="px-3 py-2">
           <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/">Inicio</b-button></b-col>
-                    <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/myprofile">Perfil</b-button></b-col>
+          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/myprofile">Mi Perfil</b-button></b-col>
           <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/users">Usuarios</b-button></b-col>
           <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/boardgames">Juegos</b-button></b-col>
           <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/reviews">Reseñas</b-button></b-col>
