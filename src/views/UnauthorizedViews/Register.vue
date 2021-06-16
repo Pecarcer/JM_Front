@@ -81,6 +81,9 @@
 
 <script>
 export default {
+    metaInfo: {
+    title: "Registro | JuegosMesapp",
+  },
   data() {
     return {
       email: "",

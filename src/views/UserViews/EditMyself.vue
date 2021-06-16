@@ -93,7 +93,7 @@
               >
                 Editar
               </button>
-              <b-button class="btn btn-lg btn-block" to="/users">
+              <b-button class="btn btn-lg btn-block" to="/myprofile">
                 Volver
               </b-button>
             </form>

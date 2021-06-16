@@ -92,7 +92,6 @@
       </b-row>
       <b-row>
         <b-table
-         
           thead-class="green-bg text-white rounded-top"
           striped
           hover
@@ -109,18 +108,16 @@
         >
           <template v-slot:cell(acciones)="data">
             <div class="btn-group" role="group">
-
               <div v-if="data.item.id != currentUser.id">
-              <button class="btn btn-primary" @click="editUser(data.item.id)">
-                Editar
-              </button>
+                <button class="btn btn-primary" @click="editUser(data.item.id)">
+                  Editar
+                </button>
               </div>
               <div v-else>
                 <button class="btn btn-primary" @click="goEditSelf()">
-                Editar
-              </button>
+                  Editar
+                </button>
               </div>
-
 
               <div v-if="data.item.id != currentUser.id">
                 <button
@@ -140,10 +137,7 @@
 
           <template v-slot:cell(perfil)="data">
             <div v-if="data.item.id == currentUser.id">
-               <button
-                class="btn btn-success"
-                @click="visitOwnProfile()"
-              >
+              <button class="btn btn-success" @click="visitOwnProfile()">
                 Visitar
               </button>
             </div>
@@ -289,6 +283,9 @@ export default {
     this.getUsers();
     this.rows = this.items.length;
     this.currentUser = JSON.parse(localStorage.user).user;
+
+
+
   },
 
   computed: {
@@ -350,7 +347,7 @@ table {
 btn {
   background-color: green;
 }
-b-button{
+b-button {
   background-color: green;
 }
 </style>

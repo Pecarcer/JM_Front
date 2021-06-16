@@ -125,6 +125,22 @@ const routes = [
     },
     component: () => import('../views/UserViews/EditMyself.vue')
   },
+  {
+    path: '/boardgames/profile/:id',
+    name: 'BoardgameProfile',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/BoardgamesViews/BoardgameProfile.vue')
+  },
+    {
+    path: '/reviews/profile/:id',
+    name: 'ReviewsProfile',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/ReviewViews/ReviewProfile.vue')
+  },
 
 ]
 

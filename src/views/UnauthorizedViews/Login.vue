@@ -53,6 +53,9 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default {
+    metaInfo: {
+    title: "Login | JuegosMesapp",
+  },
   data() {
     return {
       email: "",
