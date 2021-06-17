@@ -153,10 +153,16 @@
         </b-table>
       </b-row>
     </b-container>
-
+<b-row>
+  <b-col>
     <b-button type="button" to="/adduser" class="newbtn">
       Añadir Usuario
     </b-button>
+    <b-button type="button" to="/adduser" class="newbtn">
+      Añadir Morosos
+    </b-button>
+    </b-col>
+    </b-row>
   </div>
 </template>
 

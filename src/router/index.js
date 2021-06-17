@@ -150,6 +150,14 @@ const routes = [
     },
     component: () => import('../views/ReviewViews/AddReview.vue')
   },
+  {
+    path: '/reviews/edit/:id',
+    name: 'Editreview',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/ReviewViews/EditReview.vue')
+  },
 
 ]
 

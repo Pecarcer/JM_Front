@@ -33,40 +33,48 @@
           <br />
 
           <div>
-            <p>Likes: 
-              
+            <p>
+              Likes:
               <span v-for="item in likes" :key="item.id">
-                <button class="btn btn-primary separado" disabled>{{item.likeAuthor}} </button>
+                <button class="btn btn-primary separado" disabled>
+                  {{ item.likeAuthor }}
+                </button>
               </span>
-              </p>
-             
-            
-            <button class="btn btn-success" @click="addLike()">
-              ¡Me gusta!
-            </button>
+            </p>
+
+            <div v-if="!liked">
+              <button class="btn btn-success" @click="addLike()">
+                ¡Me gusta!
+              </button>
+            </div>
+            <div v-else>
+              <button class="btn btn-danger" @click="removeLike()">
+                ¡Ya no me gusta!
+              </button>
+            </div>
           </div>
 
           <div class="divider div-transparent div-stopper"></div>
           <br />
 
-          <b-form @submit="addComment">
-            <div class="form-group">
-              <input
-                type="text"
-                name="newCommentary"
-                v-model="newCommentary"
-                placeholder="Añade nuevo comentario..."
-                class="form-control form-control-lg"
-              />
-            </div>
-            <button type="submit" class="btn btn-success">
-              Comentar
-            </button>
-          </b-form>
+          <div class="form-group">
+            <input
+              type="text"
+              name="newCommentary"
+              v-model="newCommentary"
+              placeholder="Añade nuevo comentario..."
+              class="form-control form-control-lg"
+            />
+          </div>
+          <button type="submit" class="btn btn-success" @click="addComment()">
+            Comentar
+          </button>
+          <div class="divider div-transparent div-stopper"></div>
 
           <br />
 
           <br />
+          <p>Comentarios:</p>
 
           <div class="blogPost" v-for="item in comments" :key="item.id">
             <b-card
@@ -82,7 +90,7 @@
                 ></b-card-text
               >
             </b-card>
-            <div class="divider div-transparent div-stopper"></div>
+            
             <br />
           </div>
         </b-col>
@@ -106,10 +114,11 @@ export default {
     return {
       currentReview: "",
       comments: "",
-      likes:'',
+      likes: [],
       newCommentary: "",
       author: "",
       review_id: "",
+      liked: false,
     };
   },
 
@@ -147,47 +156,76 @@ export default {
 
       axios.get(this.urlLikes).then((data) => {
         this.likes = data.data;
+        this.checkUserLike();
       });
-      console.log(this.likes)
     },
     addLike() {
-       this.review_id = window.location.pathname.substring(
+      this.review_id = window.location.pathname.substring(
         window.location.pathname.lastIndexOf("/") + 1
-      );    
-      
+      );
+
       axios
         .post("/likes/add", {
           user: this.currentUser.id,
           review: this.review_id,
-         
         })
         .then(this.getLikes)
         .catch((e) => {
           alert(e);
         });
-    
-
+      this.getLikes();
+      this.liked=true;
     },
-    addComment() {
-       this.review_id = window.location.pathname.substring(
+    removeLike() {
+      this.idToSearch = window.location.pathname.substring(
         window.location.pathname.lastIndexOf("/") + 1
-      );    
-      
-      console.log( this.currentUser.id)
-      console.log( this.review_id)
-      console.log( this.newCommentary)
+      );
+      this.urlcheck = "/likes/check/";
+      this.urlcheck = this.urlcheck.concat(this.currentUser.id.toString());
+      this.urlcheck = this.urlcheck.concat("/");
+      this.urlcheck = this.urlcheck.concat(this.idToSearch.toString());
+
+      axios.get(this.urlcheck).then((data) => {
+        this.likeToDelete = data.data[0];
+           axios
+        .delete("/likes/delete/" + this.likeToDelete.id)
+        .then(() => {
+          this.getLikes();
+          this.liked=false;
+        })
+        .catch((e) => {
+          alert(e);
+        });
+      });
+
+   
+    },
+
+    addComment() {
+      this.review_id = window.location.pathname.substring(
+        window.location.pathname.lastIndexOf("/") + 1
+      );
+
       axios
         .post("/comments/add", {
           author: this.currentUser.id,
           review_id: this.review_id,
           commentary: this.newCommentary,
-         
         })
         .then(this.getComments)
+        .then((this.newCommentary = ""))
         .catch((e) => {
           alert(e);
         });
+    },
 
+    checkUserLike() {
+      this.likes.forEach((like) => {
+        if (like.user === this.currentUser.id) {          
+          this.liked = true;
+        }
+        
+      });
     },
   },
 
@@ -196,7 +234,7 @@ export default {
     this.getReview();
     this.getComments();
     this.getLikes();
-    
+
   },
 };
 </script>
@@ -284,7 +322,7 @@ table {
 .green-bg {
   background-color: green;
 }
-.separado{
+.separado {
   margin: 2px;
 }
 </style>

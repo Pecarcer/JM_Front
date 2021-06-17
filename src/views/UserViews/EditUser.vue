@@ -109,6 +109,9 @@
 import axios from "axios";
 
 export default {
+    metaInfo: {
+    title: "Editar Usuario | JuegosMesapp",
+  },
   data() {
     return {
       user: {},
@@ -117,7 +120,7 @@ export default {
   },
   created() {
     this.currentUser = JSON.parse(localStorage.user).user;
-    if(this.currentUser.role!='admin'){
+    if(this.currentUser.role!='Admin'){
       this.$router.push("/users")
     }
     else{

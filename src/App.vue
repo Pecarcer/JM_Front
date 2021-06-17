@@ -5,13 +5,17 @@
         <b-button v-b-toggle.sidebar-1 class="btnmenu" variant="success">Menu</b-button>
         <b-sidebar id="sidebar-1" backdrop title="Menu" shadow>
           <div class="px-3 py-2">
-          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/">Inicio</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/myprofile">Mi Perfil</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/users">Usuarios</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/boardgames">Juegos</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/reviews">Reseñas</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/games">Partidas</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block @click="logout()" variant="danger" size="lg">Logout</b-button></b-col>
+          <b-col class="btnsidebar"><b-button block variant="primary" size="lg" to="/">Inicio</b-button></b-col>
+          <b-col class="btnsidebar"><b-button block variant="primary" size="lg" to="/myprofile">Mi Perfil</b-button></b-col>
+          <br>
+          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/users">Administrar Usuarios</b-button></b-col>
+          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/boardgames">Administrar Juegos</b-button></b-col>
+          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/reviews">Administrar Reseñas</b-button></b-col>
+          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/games">Administrar Partidas</b-button></b-col>
+          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/comments">Administrar Comentarios</b-button></b-col>
+          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/likes">Administrar Me gusta</b-button></b-col>
+          <br>
+          <b-col class="btnsidebar"><b-button block @click="logout()" variant="danger" size="lg">Salir</b-button></b-col>
           <b-img fluid height="50%" src="@/assets/greendice.png"/>
           </div>
         </b-sidebar>
@@ -88,5 +92,7 @@ router-link{
 .green-bg {
   background-color: green;
 }
+
+
 
 </style>

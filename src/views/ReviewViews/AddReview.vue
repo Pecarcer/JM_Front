@@ -81,7 +81,6 @@ export default {
       opinion: "",
       users: [],
       boardgames: [],
-      sortBy: '',
     };
   },
   methods: {
