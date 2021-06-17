@@ -91,7 +91,7 @@
                 class="btn btn-lg btn-block"
                 @click="saveUserChanges()"
               >
-                Añadir
+                Editar
               </button>
               <b-button class="btn btn-lg btn-block" to="/users">
                 Volver

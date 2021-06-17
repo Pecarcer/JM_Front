@@ -10,10 +10,9 @@
           <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/users">Usuarios</b-button></b-col>
           <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/boardgames">Juegos</b-button></b-col>
           <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/reviews">Reseñas</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/rooms">Salas</b-button></b-col>
           <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/games">Partidas</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/about">About</b-button></b-col>
           <b-col class="btnsidebar"><b-button block @click="logout()" variant="danger" size="lg">Logout</b-button></b-col>
+          <b-img fluid height="50%" src="@/assets/greendice.png"/>
           </div>
         </b-sidebar>
       </div>
@@ -46,6 +45,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  /*background-image: url('~@/assets/background.png');*/
+
 }
 
 #nav {

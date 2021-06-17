@@ -15,7 +15,7 @@
       <b-col></b-col>
       <b-col>
         <div class="card">
-          <form enctype="multipart/form-data" @submit="saveBoardgame">
+          <form @submit="saveBoardgame">
             <div class="form-group">
               <label>Nombre</label>
               <input
@@ -96,13 +96,6 @@
               />
             </div>
 
-            <!--
-            <div class="form-group">
-              <label>Imagen</label>
-              <input type="file" name="file" v-on:change="onChange" />
-            </div>
-            -->
-
             <button class="btn btn-lg btn-block">
               Añadir
             </button>
@@ -135,45 +128,10 @@ export default {
       playing_time: "",
       ages: "",
       publisher: "",
-      //file: "",
     };
   },
   methods: {
     saveBoardgame(){
-    /*
-    saveBoardgame(e) {
-      
-      e.preventDefault();
-      let existingObj = this;
-
-      const config = {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      };
-
-      let data = new FormData();
-      data.append("title", this.title);
-      data.append("creator", this.creator);
-      data.append("release", this.release);
-      data.append("min_num_players", this.min_num_players);
-      data.append("max_num_players", this.max_num_players);
-      data.append("ages", this.ages);
-      data.append("publisher", this.publisher);
-      data.append("file", this.file);
-
-      console.log(data);
-
-      axios
-        .post("/boardgames/add", data, config)
-        .then(function(res) {
-          existingObj.success = res.data.success;
-        })
-        .catch(function(err) {
-          existingObj.output = err;
-          console.log(err);
-        });
-        */
       let self = this;
       axios
         .post("/boardgames/add", {
@@ -185,7 +143,6 @@ export default {
           playing_time: this.playing_time,
           ages: this.ages,
           publisher: this.publisher,
-          //image: this.image,
         })
         .then(self.$router.push("/boardgames"))
         .catch((error) => {

@@ -228,6 +228,7 @@ export default {
         this.items = data.data;
       });
     },
+    
     editUser(idToEdit) {
       this.$router.push("/users/edit/" + idToEdit);
     },
@@ -271,30 +272,38 @@ export default {
     visitProfile(idToVisit) {
       this.$router.push("/users/profile/" + idToVisit);
     },
-    visitOwnProfile(){
-      this.$router.push("/myprofile")
+    visitOwnProfile() {
+      this.$router.push("/myprofile");
     },
-    goEditSelf(){
-      this.$router.push("/editMyself")
-    }
+    goEditSelf() {
+      this.$router.push("/editMyself");
+    },
   },
 
   created() {
     this.getUsers();
     this.rows = this.items.length;
     this.currentUser = JSON.parse(localStorage.user).user;
-
-
-
   },
 
   computed: {
-    rows() {
+    /*rows() {
       return this.items.length;
+    },*/
+
+    rows: {
+      get: function() {
+        return this.items.length;
+      },
+
+      set: function(newValue) {
+        this.items.length = newValue;
+      },
     },
 
     sortOptions() {
       // Create an options list from our fields
+      
       return this.fields
         .filter((f) => f.sortable)
         .map((f) => {

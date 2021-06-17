@@ -15,7 +15,7 @@
 
       <b-container>
         <b-row>
-          <b-col></b-col>
+          
           <b-col>
             <div class="header">
               <h2>¡Bienvenido!</h2>
@@ -36,7 +36,7 @@
               </div>
             </div>
           </b-col>
-          <b-col></b-col>
+         
         </b-row>
       </b-container>
     </div>

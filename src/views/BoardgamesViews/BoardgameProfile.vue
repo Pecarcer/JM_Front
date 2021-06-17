@@ -112,66 +112,6 @@
 
       <b-row>
         <b-col>
-          <b-table
-            striped
-            show-empty
-            hover
-            :items="reviews"
-            :fields="fieldsReview"
-            caption-top
-            thead-class="green-bg text-white rounded-top"
-          >
-            <template #table-caption
-              >Reseñas de {{ profileUser.nick }}
-            </template>
-
-            <template v-slot:cell(verJuego)="data">
-              <button
-                class="btn btn-success"
-                @click="visitGamePage(data.boardgame_id)"
-              >
-                Ver Juego
-              </button>
-            </template>
-
-            <template v-slot:cell(created_at)="data">
-              {{ data.item.created_at | moment("DD/MM/YYYY") }}
-            </template>
-          </b-table>
-
-          <b-table
-            striped
-            hover
-            :items="gamesByUser"
-            :fields="fieldsGamesByUser"
-            caption-top
-            show-empty
-            thead-class="green-bg text-white rounded-top"
-          >
-            <template #table-caption
-              >Partidas creadas por {{ profileUser.nick }}
-            </template>
-            <template v-slot:cell(date)="data">
-              {{ data.item.date | moment("DD/MM/YYYY") }}
-            </template>
-          </b-table>
-
-          <b-table
-            striped
-            hover
-            :items="gamesWithUser"
-            :fields="fieldsGamesWithUser"
-            caption-top
-            show-empty
-            thead-class="green-bg text-white rounded-top"
-          >
-            <template #table-caption
-              >Partidas en las que {{ profileUser.nick }} participó</template
-            >
-            <template v-slot:cell(date)="data">
-              {{ data.item.date | moment("DD/MM/YYYY") }}
-            </template>
-          </b-table>
         </b-col>
       </b-row>
       <b-row>
@@ -190,27 +130,13 @@
                 >
                   <b-card-text> "{{ item.opinion }}" <br> <span class="float-right">{{ item.created_at | moment("DD/MM/YYYY") }}</span></b-card-text>
 
-                  <b-button @click="visitReview(item.id)" variant="primary">Ver comentarios</b-button>
+                  <b-button @click="visitReview(item.id)" variant="primary">Ver Reseña</b-button>
                 </b-card>
                 <div class="divider div-transparent div-stopper"></div>
                 <br>
               </div>
             </div>
           </div>
-          <!--
-          <div>
-            <div id="itemList">
-              <div class="blogPost" v-for="item in reviews" :key="item.id">
-                <div>
-                  <h4>escrito por {{ item.reviewerName }}</h4>
-                  opinion {{ item.opinion }} <br />
-                  score {{ item.score }} <br />
-                  Publicado en {{ item.created_at | moment("DD/MM/YYYY") }}
-                </div>
-                <div class="divider div-transparent div-stopper"></div>
-              </div>
-            </div>
-          </div> -->
         </b-col>
         <b-col></b-col>
       </b-row>
@@ -263,7 +189,7 @@ export default {
         this.currentBoardgame = response.data;
       });
     this.getReviews();
-    this.getComments();
+
   },
 
   computed: {},

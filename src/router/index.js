@@ -11,14 +11,7 @@ const routes = [
     name: 'Home',
     component: Home
   },
-  {
-    path: '/about',
-    name: 'About',
-    meta: {
-      auth: true
-    },
-    component: () => import('../views/About.vue')
-  },
+
   {
     path: '/login',
     name: 'Login',
@@ -45,7 +38,7 @@ const routes = [
     },
     component: () => import('../views/UserViews/AddUser.vue')
   },
-    {
+  {
     path: '/users/edit/:id',
     name: 'Edituser',
     meta: {
@@ -133,13 +126,29 @@ const routes = [
     },
     component: () => import('../views/BoardgamesViews/BoardgameProfile.vue')
   },
-    {
+  {
     path: '/reviews/profile/:id',
     name: 'ReviewsProfile',
     meta: {
       auth: true
     },
     component: () => import('../views/ReviewViews/ReviewProfile.vue')
+  },
+  {
+    path: '/boardgames/edit/:id',
+    name: 'EditBoardgame',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/BoardgamesViews/EditBoardgame.vue')
+  },
+  {
+    path: '/addreview',
+    name: 'AddReview',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/ReviewViews/AddReview.vue')
   },
 
 ]
