@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-brand>Usuarios</b-navbar-brand>
+      <b-navbar-brand>Deudores</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
@@ -58,9 +58,8 @@
               :aria-describedby="ariaDescribedby"
               class="mt-1"
             >
-              <b-form-checkbox value="nick">Nick</b-form-checkbox>
-              <b-form-checkbox value="email">Email</b-form-checkbox>
-              <b-form-checkbox value="fullname">Nombre</b-form-checkbox>
+              <b-form-checkbox value="debtorNick">Nick</b-form-checkbox>
+              <b-form-checkbox value="debtorFullname">Nombre</b-form-checkbox>
             </b-form-checkbox-group>
           </b-form-group>
         </b-col>
@@ -108,60 +107,27 @@
         >
           <template v-slot:cell(acciones)="data">
             <div class="btn-group" role="group">
-              <div v-if="data.item.id != currentUser.id">
-                <button class="btn btn-primary" @click="editUser(data.item.id)">
-                  Editar
-                </button>
-              </div>
-              <div v-else>
-                <button class="btn btn-primary" @click="goEditSelf()">
-                  Editar
-                </button>
-              </div>
-
-              <div v-if="data.item.id != currentUser.id">
-                <button
-                  class="btn btn-danger"
-                  @click="confirmarDelete(data.item.id)"
-                >
-                  Borrar
-                </button>
-              </div>
-              <div v-else>
-                <button class="btn btn-danger" disabled>
-                  Borrar
-                </button>
-              </div>
-            </div>
-          </template>
-
-          <template v-slot:cell(perfil)="data">
-            <div v-if="data.item.id == currentUser.id">
-              <button class="btn btn-success" @click="visitOwnProfile()">
-                Visitar
+              <button class="btn btn-primary" @click="editDebtor(data.item.id)">
+                Editar
               </button>
-            </div>
-            <div v-else>
+
               <button
-                class="btn btn-success"
-                @click="visitProfile(data.item.id)"
+                class="btn btn-danger"
+                @click="confirmarDelete(data.item.id)"
               >
-                Visitar
+                Saldar
               </button>
             </div>
           </template>
         </b-table>
       </b-row>
     </b-container>
-<b-row>
-  <b-col>
-    <b-button type="button" to="/adduser" class="newbtn">
-      Añadir Usuario
-    </b-button>
-    <b-button type="button" to="/debtors" class="newbtn">
-      Ver Deudores
-    </b-button>
-    </b-col>
+    <b-row>
+      <b-col>
+        <b-button type="button" to="/adddebtor" class="newbtn">
+          Añadir Deudor
+        </b-button>
+      </b-col>
     </b-row>
   </div>
 </template>
@@ -172,12 +138,12 @@ import "../../store/index.js";
 
 export default {
   metaInfo: {
-    title: "Usuarios | JuegosMesapp",
+    title: "Deudores | JuegosMesapp",
   },
   data() {
     return {
       items: [],
-      url: "http://127.0.0.1:8000/api/users",
+      url: "http://127.0.0.1:8000/api/debtors",
       perPage: 5,
       currentPage: 1,
       SortBy: "",
@@ -191,31 +157,21 @@ export default {
           tdClass: "thead",
         },
         {
-          key: "nick",
+          key: "debtorNick",
           sortable: true,
           label: "Nick",
           tdClass: "thead",
         },
         {
-          key: "email",
-          sortable: true,
-          tdClass: "thead",
-        },
-        {
-          key: "role",
-          sortable: true,
-          label: "Rol",
-          tdClass: "thead",
-        },
-        {
-          key: "fullname",
+          key: "debtorFullname",
           sortable: true,
           label: "Nombre Completo",
           tdClass: "thead",
         },
         {
-          key: "perfil",
-          sortable: false,
+          key: "months_overdue",
+          sortable: true,
+          label: "Meses de retraso",
           tdClass: "thead",
         },
         {
@@ -229,21 +185,21 @@ export default {
   },
 
   methods: {
-    getUsers() {
+    getDebtors() {
       axios.get(this.url).then((data) => {
         this.items = data.data;
       });
     },
-    
-    editUser(idToEdit) {
-      this.$router.push("/users/edit/" + idToEdit);
+
+    editDebtor(idToEdit) {
+      this.$router.push("/debtors/edit/" + idToEdit);
     },
 
     deleteUser(idToDelete) {
       axios
-        .delete("/users/delete/" + idToDelete)
+        .delete("/debtors/delete/" + idToDelete)
         .then(() => {
-          this.getUsers();
+          this.getDebtors();
         })
         .catch((e) => {
           alert(e);
@@ -287,9 +243,9 @@ export default {
   },
 
   created() {
-    this.getUsers();
-    this.rows = this.items.length;
     this.currentUser = JSON.parse(localStorage.user).user;
+    this.getDebtors();
+    this.rows = this.items.length;
   },
 
   computed: {
@@ -309,7 +265,7 @@ export default {
 
     sortOptions() {
       // Create an options list from our fields
-      
+
       return this.fields
         .filter((f) => f.sortable)
         .map((f) => {

@@ -158,6 +158,14 @@ const routes = [
     },
     component: () => import('../views/ReviewViews/EditReview.vue')
   },
+  {
+    path: '/debtors',
+    name: 'Debtors',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/UserViews/Debtors.vue')
+  },
 
 ]
 

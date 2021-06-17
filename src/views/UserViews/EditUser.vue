@@ -81,8 +81,8 @@
                   v-model="user.role"
                   class="form-control form-control-lg"
                 >
-                  <option value="user" selected>Usuario</option>
-                  <option value="admin">Administrador</option>
+                  <option value="User" selected>Usuario</option>
+                  <option value="Admin">Administrador</option>
                 </select>
               </div>
 
