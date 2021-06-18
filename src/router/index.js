@@ -63,14 +63,6 @@ const routes = [
     component: () => import('../views/BoardgamesViews/AddBoardgame.vue')
   },
   {
-    path: '/editboardgame',
-    name: 'EditBoardgame',
-    meta: {
-      auth: true
-    },
-    component: () => import('../views/BoardgamesViews/EditBoardgame.vue')
-  },
-  {
     path: '/reviews',
     name: 'Reviews',
     meta: {

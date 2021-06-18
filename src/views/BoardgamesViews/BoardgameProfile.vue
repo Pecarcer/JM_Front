@@ -115,7 +115,7 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col></b-col>
+        
         <b-col>
           <div>
             <div id="itemList">
@@ -138,7 +138,7 @@
             </div>
           </div>
         </b-col>
-        <b-col></b-col>
+        
       </b-row>
     </b-container>
   </div>

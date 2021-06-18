@@ -56,25 +56,7 @@
                 />
               </div>
 
-              <!--<div class="form-group">
-                <label>Nueva Contraseña</label>
-                <input
-                  type="password"
-                  class="form-control form-control-lg"
-                  name="password"
-                  v-model="user.password"
-                />
-              </div>
-              <div class="form-group">
-                <label>Confirma la nueva Contraseña</label>
-                <input
-                  type="password"
-                  class="form-control form-control-lg"
-                  name="password_confirmation"
-                  v-model="user.password_confirmation"
-                />
-              </div> -->
-
+              <span v-if="currentUser.role=='Admin'">
               <div class="form-group">
                 <label>Selecciona rol</label>
                 <select
@@ -85,6 +67,7 @@
                   <option value="Admin">Administrador</option>
                 </select>
               </div>
+              </span>
 
               <button
                 type="submit"
@@ -117,10 +100,12 @@ export default {
       user: {},
       showAlert: false,
       currentUserId: "",
+      currentUser:''
     };
   },
   created() {
     this.currentUserId = JSON.parse(localStorage.user).user.id;
+    this.currentUser = JSON.parse(localStorage.user);
 
     this.url = "http://127.0.0.1:8000/api/users/edit/";
     this.url = this.url.concat(this.currentUserId.toString());

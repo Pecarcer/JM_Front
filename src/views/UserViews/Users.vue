@@ -107,32 +107,37 @@
           @filtered="onFiltered"
         >
           <template v-slot:cell(acciones)="data">
-            <div class="btn-group" role="group">
-              <div v-if="data.item.id != currentUser.id">
-                <button class="btn btn-primary" @click="editUser(data.item.id)">
-                  Editar
-                </button>
-              </div>
-              <div v-else>
-                <button class="btn btn-primary" @click="goEditSelf()">
-                  Editar
-                </button>
-              </div>
+            <span v-if="currentUser.role == 'Admin'">
+              <div class="btn-group" role="group">
+                <div v-if="data.item.id != currentUser.id">
+                  <button
+                    class="btn btn-primary"
+                    @click="editUser(data.item.id)"
+                  >
+                    Editar
+                  </button>
+                </div>
+                <div v-else>
+                  <button class="btn btn-primary" @click="goEditSelf()">
+                    Editar
+                  </button>
+                </div>
 
-              <div v-if="data.item.id != currentUser.id">
-                <button
-                  class="btn btn-danger"
-                  @click="confirmarDelete(data.item.id)"
-                >
-                  Borrar
-                </button>
+                <div v-if="data.item.id != currentUser.id">
+                  <button
+                    class="btn btn-danger"
+                    @click="confirmarDelete(data.item.id)"
+                  >
+                    Borrar
+                  </button>
+                </div>
+                <div v-else>
+                  <button class="btn btn-danger" disabled>
+                    Borrar
+                  </button>
+                </div>
               </div>
-              <div v-else>
-                <button class="btn btn-danger" disabled>
-                  Borrar
-                </button>
-              </div>
-            </div>
+            </span>
           </template>
 
           <template v-slot:cell(perfil)="data">
@@ -153,15 +158,17 @@
         </b-table>
       </b-row>
     </b-container>
-<b-row>
-  <b-col>
-    <b-button type="button" to="/adduser" class="newbtn">
-      Añadir Usuario
-    </b-button>
-    <b-button type="button" to="/debtors" class="newbtn">
-      Ver Deudores
-    </b-button>
-    </b-col>
+    <b-row>
+      <b-col>
+        <span v-if="currentUser.role == 'Admin'">
+          <b-button type="button" to="/adduser" class="newbtn">
+            Añadir Usuario
+          </b-button>
+          <b-button type="button" to="/debtors" class="newbtn">
+            Ver Deudores
+          </b-button>
+        </span>
+      </b-col>
     </b-row>
   </div>
 </template>
@@ -177,6 +184,7 @@ export default {
   data() {
     return {
       items: [],
+      currentUser: "",
       url: "http://127.0.0.1:8000/api/users",
       perPage: 5,
       currentPage: 1,
@@ -234,34 +242,42 @@ export default {
         this.items = data.data;
       });
     },
-    
+
     editUser(idToEdit) {
       this.$router.push("/users/edit/" + idToEdit);
     },
 
     deleteUser(idToDelete) {
-      axios
-        .delete("/users/delete/" + idToDelete)
-        .then(() => {
-          this.getUsers();
-        })
-        .catch((e) => {
-          alert(e);
-        });
+      if (this.currentUser.role != "Admin") {
+        this.$router.push("/users");
+      } else {
+        axios
+          .delete("/users/delete/" + idToDelete)
+          .then(() => {
+            this.getUsers();
+          })
+          .catch((e) => {
+            alert(e);
+          });
+      }
     },
     confirmarDelete(idToDelete) {
-      this.$confirm({
-        message: "¿Estás seguro?",
-        button: {
-          no: "No",
-          yes: "Sí",
-        },
-        callback: (confirm) => {
-          if (confirm) {
-            this.deleteUser(idToDelete);
-          }
-        },
-      });
+      if (this.currentUser.role != "Admin") {
+        this.$router.push("/users");
+      } else {
+        this.$confirm({
+          message: "¿Estás seguro?",
+          button: {
+            no: "No",
+            yes: "Sí",
+          },
+          callback: (confirm) => {
+            if (confirm) {
+              this.deleteUser(idToDelete);
+            }
+          },
+        });
+      }
     },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
@@ -280,9 +296,9 @@ export default {
   },
 
   created() {
+    this.currentUser = JSON.parse(localStorage.user).user;
     this.getUsers();
     this.rows = this.items.length;
-    this.currentUser = JSON.parse(localStorage.user).user;
   },
 
   computed: {
@@ -302,7 +318,7 @@ export default {
 
     sortOptions() {
       // Create an options list from our fields
-      
+
       return this.fields
         .filter((f) => f.sortable)
         .map((f) => {

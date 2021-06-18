@@ -15,34 +15,59 @@
 
       <b-container>
         <b-row>
-          
           <b-col>
             <div class="header">
               <h2>¡Bienvenido!</h2>
               <h4>¡Echa un vistazo a las últimas novedades!</h4>
+              <br />
+              <b-img fluid height="70%" width="100%" src="@/assets/icon2.png" />
+              <b-img fluid height="70%" width="100%" src="@/assets/icon.png" />
+              <b-img fluid height="70%" width="100%" src="@/assets/icon3.png" />
+              <b-img fluid height="70%" width="100%" src="@/assets/icon4.png" />
+              <b-img fluid height="70%" width="100%" src="@/assets/icon5.png" />
+              <b-img fluid height="70%" width="100%" src="@/assets/icon6.png" />
             </div>
 
-            <div>
-              <div id="itemList">
-                <div class="blogPost" v-for="item in items" :key="item.id">
-                  <div>
-                    <h4>{{ item.title }}</h4>
-                    {{ item.post_text }} <br />
-                    Por {{ item.posterNick }} <br />
-                    Publicado en {{ item.created_at | moment("DD/MM/YYYY") }}
-                  </div>
-                  <div class="divider div-transparent div-stopper"></div>
-                </div>
+            <div id="itemList">
+              <div class="blogPost" v-for="item in items" :key="item.id">
+                <b-card
+                  :header="item.title"
+                  Success
+                  header-tag="header"
+                  header-text-variant="white"
+                  class="text-center"
+                  border-variant="success"
+                  header-bg-variant="success"
+                >
+                  <b-card-text>
+                    {{ item.post_text }} <br /><br />
+                    Por {{ item.posterNick }} el
+                    {{ item.created_at | moment("DD/MM/YYYY") }}
+                  </b-card-text>
+                </b-card>
+                <div class="divider div-transparent div-stopper"></div>
+                <br />
               </div>
             </div>
           </b-col>
-         
+        </b-row>
+        <b-row>
+          <!--
+          <b-pagination
+            @change="onPageChanged"
+            :total-rows="totalRows"
+            :per-page="perPage"
+            v-model="currentPage"
+            class="my-0"
+          />-->
         </b-row>
       </b-container>
     </div>
 
     <div class="md-card md-primary md-theme-demo-light" v-else>
       <div>
+        <br>
+        <b-img width='500' height='300' src="@/assets/inicio.png" />
         <br /><br /><br />
         <h1>¡Hola!</h1>
         <h2>
@@ -76,7 +101,7 @@ export default {
       url: "http://127.0.0.1:8000/api/posts",
       currentPage: 1,
       perPage: 3,
-      rows: 1,
+      totalRows: "",
     };
   },
   computed: {
@@ -94,11 +119,22 @@ export default {
         });
       }
     },
+    onPageChanged(page) {
+      this.paginate(this.perPage, page - 1);
+    },
+    paginate(page_size, page_number) {
+      let itemsToParse = this.items;
+      this.paginatedItems = itemsToParse.slice(
+        page_number * page_size,
+        (page_number + 1) * page_size
+      );
+    },
   },
   created() {
     this.getPosts();
-    this.rows = this.items.length;
+    this.totalRows = this.items.length;
     this.currentUser = JSON.parse(localStorage.user).user;
+    this.paginate(this.perPage, 0);
   },
 };
 </script>
