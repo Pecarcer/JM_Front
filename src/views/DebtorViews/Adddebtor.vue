@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-brand>Añadir Reseña</b-navbar-brand>
+      <b-navbar-brand>Añadir Deudor</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
@@ -16,49 +16,31 @@
       <b-col>
         <div class="card">
           
-            <div class="form-group">
-              <label>Juego</label>
-              <select v-model="boardgame_id" class="form-control form-control-lg">
-                   <option v-for="item in boardgames" :value="item.id" :key="item.id">{{item.title}}</option>
-              </select>
-            </div>
-
-            <div class="form-group">
+              <div class="form-group">
               <label>Usuario</label>
-              <select v-model="reviewer" class="form-control form-control-lg">
+              <select v-model="user" class="form-control form-control-lg">
                    <option v-for="item in users" :value="item.id" :key="item.id">{{item.nick}}</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label>Nota</label>
+              <label>Meses de retraso</label>
               <input
                 type="text"
                 name="score"
-                v-model="score"
-                class="form-control form-control-lg"
-              />
-            </div>
-
-            <div class="form-group">
-              <label>Opinion</label>
-              <input
-                type="text"
-                name="opinion"
-                v-model="opinion"
+                v-model="months_overdue"
                 class="form-control form-control-lg"
               />
             </div>
 
 
-            <button class="btn btn-lg btn-block" @click="saveReview()">
+            <button class="btn btn-lg btn-block" @click="saveDebtor">
               Añadir
             </button>
           
-          <b-button class="btn btn-lg btn-block volver" to="/reviews">
+          <b-button class="btn btn-lg btn-block volver" to="/boardgames">
             Volver
           </b-button>
-          
         </div>
       </b-col>
       <b-col></b-col>
@@ -71,31 +53,27 @@ import axios from "axios";
 
 export default {
   metaInfo: {
-    title: "Juegos de Mesa | JuegosMesapp",
+    title: "Añadir Deudor | JuegosMesapp",
   },
 
   data() {
     return {
-      reviewer: "",
-      boardgame_id: "",
-      score: "",
-      opinion: "",
+      user: "",
+      months_overdue: "",
       users: [],
-      boardgames: [],
+
     };
   },
   methods: {
-    saveReview() {
+    saveDebtor() {
       let self = this;
       axios
-        .post("/reviews/add", {
-          reviewer: this.reviewer,
-          boardgame_id: this.boardgame_id,
-          score: this.score,
-          opinion: this.opinion,
+        .post("/debtors/add", {
+          user: this.user,
+          months_overdue: this.months_overdue,
         })
         .then(
-            self.$router.push("/reviews")
+            self.$router.push("/debtors")
             )
         .catch((e) => {
           alert(e);
@@ -107,16 +85,11 @@ export default {
         this.users = data.data;
       });
     },
-    getBoardgames() {
-      axios.get("/boardgames").then((data) => {
-        this.boardgames = data.data;
-      });
-    },
+
   },
   created() {
     this.currentUser = JSON.parse(localStorage.user).user;
     this.getUsers();
-    this.getBoardgames();
   },
 };
 </script>

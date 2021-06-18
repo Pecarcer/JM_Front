@@ -79,14 +79,6 @@ const routes = [
     component: () => import('../views/ReviewViews/Reviews.vue')
   },
   {
-    path: '/rooms',
-    name: 'Rooms',
-    meta: {
-      auth: true
-    },
-    component: () => import('../views/RoomViews/Rooms.vue')
-  },
-  {
     path: '/games',
     name: 'Games',
     meta: {
@@ -164,7 +156,23 @@ const routes = [
     meta: {
       auth: true
     },
-    component: () => import('../views/UserViews/Debtors.vue')
+    component: () => import('../views/DebtorViews/Debtors.vue')
+  },
+  {
+    path: '/adddebtor',
+    name: 'AddDebtor',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/DebtorViews/Adddebtor.vue')
+  },
+  {
+    path: '/debtors/edit/:id',
+    name: 'EditDebtor',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/DebtorViews/Editdebtor.vue')
   },
 
 ]

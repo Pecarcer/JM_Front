@@ -25,7 +25,7 @@
         <b-col></b-col>
         <b-col>
           <div class="card">
-            <form>
+            
               <div class="form-group">
                 <label>Email</label>
                 <input
@@ -56,7 +56,7 @@
                 />
               </div>
 
-              <div class="form-group">
+              <!--<div class="form-group">
                 <label>Nueva Contraseña</label>
                 <input
                   type="password"
@@ -73,7 +73,7 @@
                   name="password_confirmation"
                   v-model="user.password_confirmation"
                 />
-              </div>
+              </div> -->
 
               <div class="form-group">
                 <label>Selecciona rol</label>
@@ -96,7 +96,7 @@
               <b-button class="btn btn-lg btn-block" to="/myprofile">
                 Volver
               </b-button>
-            </form>
+            
           </div>
         </b-col>
         <b-col></b-col>
@@ -129,7 +129,6 @@ export default {
       .get(this.url)
       .then((response) => {
         this.user = response.data;
-        console.log(response.data);
       });
   },
   methods: {
@@ -142,7 +141,9 @@ export default {
 
       axios
         .post(this.url, this.user)
-        .then(self.$router.push("/myprofile"))
+        .then(self.$router.push("/myprofile")).then(
+          console.log(this.user)
+        )
         .catch((err) => {
           console.log(err);
           this.showAlert = true;

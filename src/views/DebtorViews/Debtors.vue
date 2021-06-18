@@ -115,7 +115,7 @@
                 class="btn btn-danger"
                 @click="confirmarDelete(data.item.id)"
               >
-                Saldar
+                Ha pagado
               </button>
             </div>
           </template>
@@ -222,13 +222,6 @@ export default {
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.rows = filteredItems.length;
-
-      /*
-      console.log("total filtrados");
-      console.log(filteredItems.length);
-      console.log("numero que debería ser igual que el anterior");
-      console.log(this.rows); */
-
       this.currentPage = 1;
     },
     visitProfile(idToVisit) {

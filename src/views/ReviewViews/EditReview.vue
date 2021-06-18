@@ -84,8 +84,7 @@
               </button>
                <b-button class="btn btn-lg btn-block" to="/reviews">
                 Volver
-              </b-button>
-           
+              </b-button>         
             
               
           </div>

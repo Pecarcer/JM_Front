@@ -55,7 +55,7 @@
                   class="form-control form-control-lg"
                 />
               </div>
-
+              <!--
               <div class="form-group">
                 <label>Nueva Contraseña</label>
                 <input
@@ -73,7 +73,7 @@
                   name="password_confirmation"
                   v-model="user.password_confirmation"
                 />
-              </div>
+              </div>-->
 
               <div class="form-group">
                 <label>Selecciona rol</label>
@@ -109,7 +109,7 @@
 import axios from "axios";
 
 export default {
-    metaInfo: {
+  metaInfo: {
     title: "Editar Usuario | JuegosMesapp",
   },
   data() {
@@ -120,16 +120,15 @@ export default {
   },
   created() {
     this.currentUser = JSON.parse(localStorage.user).user;
-    if(this.currentUser.role!='Admin'){
-      this.$router.push("/users")
-    }
-    else{
-    axios
-      .get(`http://127.0.0.1:8000/api/users/edit/${this.$route.params.id}`)
-      .then((response) => {
-        this.user = response.data;
-        console.log(response.data);
-      });
+    if (this.currentUser.role != "Admin") {
+      this.$router.push("/users");
+    } else {
+      axios
+        .get(`http://127.0.0.1:8000/api/users/edit/${this.$route.params.id}`)
+        .then((response) => {
+          this.user = response.data;
+          console.log(response.data);
+        });
     }
   },
   methods: {
