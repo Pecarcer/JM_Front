@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-brand>Partidas</b-navbar-brand>
+      <b-navbar-brand>Posts</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
@@ -58,8 +58,9 @@
               :aria-describedby="ariaDescribedby"
               class="mt-1"
             >
-              <b-form-checkbox value="masterNick">Organizador</b-form-checkbox>
-              <b-form-checkbox value="boardgameTitle">Juego</b-form-checkbox>
+              <b-form-checkbox value="posterNick">Autoría</b-form-checkbox>
+              <b-form-checkbox value="post_text">Texto</b-form-checkbox>
+              <b-form-checkbox value="title">Titulo</b-form-checkbox>
             </b-form-checkbox-group>
           </b-form-group>
         </b-col>
@@ -107,7 +108,7 @@
         >
           <template v-slot:cell(acciones)="data">
             <div class="btn-group" role="group">
-              <button class="btn btn-primary" @click="editGame(data.item.id)">
+              <button class="btn btn-primary" @click="editPost(data.item.id)">
                 Editar
               </button>
               <button
@@ -118,24 +119,12 @@
               </button>
             </div>
           </template>
-            <template v-slot:cell(date)="data">
-              {{ data.item.date | moment("DD/MM/YYYY") }}
-            </template>
-
-          <template v-slot:cell(verJugadores)="data">
-            <button
-              class="btn btn-success"
-              @click="visitPlayersOf(data.item.id)"
-            >
-              Ver
-            </button>
-          </template>
         </b-table>
       </b-row>
     </b-container>
 
-    <b-button type="button" to="/addgame" class="newbtn">
-      Añadir Partida
+    <b-button type="button" to="/addpost" class="newbtn">
+      Añadir Post
     </b-button>
   </div>
 </template>
@@ -146,12 +135,12 @@ import "../../store/index.js";
 
 export default {
   metaInfo: {
-    title: "Partidas | JuegosMesapp",
+    title: "Posts | JuegosMesapp",
   },
   data() {
     return {
       items: [],
-      url: "http://127.0.0.1:8000/api/games",
+      url: "http://127.0.0.1:8000/api/posts",
       perPage: 5,
       currentPage: 1,
       SortBy: "",
@@ -165,35 +154,22 @@ export default {
           class: "text-center",
         },
         {
-          key: "masterNick",
+          key: "posterNick",
           sortable: true,
-          label: "Organizador",
+          label: "Autoría",
           class: "text-center",
         },
         {
-          key: "boardgameTitle",
-          sortable: true,
-          class: "text-center",
-          label: "Juego",
-        },
-        {
-          key: "date",
-          sortable: true,
-          label: "Fecha",
+          key: "title",
+          sortable: false,
+          label: "Titulo",
           class: "text-center",
         },
         {
-          key: "time",
+          key: "post_text",
           sortable: false,
           class: "text-center",
-          label: "Hora",
-        },
-
-        {
-          key: "verJugadores",
-          sortable: false,
-          label: "Jugadores",
-          class: "text-center",
+          label: "Post",
         },
         {
           key: "acciones",
@@ -206,21 +182,21 @@ export default {
   },
 
   methods: {
-    getGames() {
+    getPosts() {
       axios.get(this.url).then((data) => {
         this.items = data.data;
       });
     },
 
-    editGame(idToEdit) {
-      this.$router.push("/games/edit/" + idToEdit);
+    editPost(idToEdit) {
+      this.$router.push("/posts/edit/" + idToEdit);
     },
 
-    deleteGame(idToDelete) {
+    deletePost(idToDelete) {
       axios
-        .delete("/games/delete/" + idToDelete)
+        .delete("/posts/delete/" + idToDelete)
         .then(() => {
-          this.getGames();
+          this.getPosts();
         })
         .catch((e) => {
           alert(e);
@@ -235,7 +211,7 @@ export default {
         },
         callback: (confirm) => {
           if (confirm) {
-            this.deleteGame(idToDelete);
+            this.deletePost(idToDelete);
           }
         },
       });
@@ -245,16 +221,15 @@ export default {
       this.rows = filteredItems.length;
       this.currentPage = 1;
     },
-
-    visitPlayersOf(idToVisit) {
-      this.$router.push("/players/of/" + idToVisit);
+    visitBoardgameProfile(idToVisit) {
+      this.$router.push("/boardgames/profile/" + idToVisit);
     },
   },
 
   created() {
-    this.getGames();
-    this.rows = this.items.length;
     this.currentUser = JSON.parse(localStorage.user).user;
+    this.getPosts();
+    this.rows = this.items.length;
   },
 
   computed: {

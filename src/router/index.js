@@ -174,6 +174,94 @@ const routes = [
     },
     component: () => import('../views/DebtorViews/Editdebtor.vue')
   },
+  {
+    path: '/comments',
+    name: 'Comments',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/CommentViews/Comments.vue')
+  },
+  {
+    path: '/comments/edit/:id',
+    name: 'EditComment',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/CommentViews/Editcomment.vue')
+  },
+  {
+    path: '/addgame',
+    name: 'AddGame',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/GameViews/Addgame.vue')
+  },
+  {
+    path: '/games/edit/:id',
+    name: 'EditGame',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/GameViews/Editgame.vue')
+  },
+  {
+    path: '/players/of/:id',
+    name: 'PlayersOf',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/GameViews/Playersof.vue')
+  },
+  {
+    path: '/games/addplayer/:id',
+    name: 'AddPlayer',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/GameViews/Addplayer.vue')
+  },
+  {
+    path: '*',
+    meta: {
+      auth: true
+    },
+    redirect: '/'   
+  },
+  {
+    path: '/posts',
+    name: 'AdminPosts',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/PostViews/Posts.vue') 
+  },
+  {
+    path: '/likes',
+    name: 'AdminLikes',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/LikesViews/Likes.vue') 
+  },
+  {
+    path: '/addpost',
+    name: 'AddPosts',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/PostViews/Addpost.vue') 
+  },
+  {
+    path: '/posts/edit/:id',
+    name: 'EditPost',
+    meta: {
+      auth: true
+    },
+    component: () => import('../views/PostViews/Editpost.vue') 
+  },
+
 
 ]
 

@@ -1,7 +1,9 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-brand>Partidas</b-navbar-brand>
+      <b-navbar-brand
+        >Jugadores de la partida Id {{ this.idCurrentGame }}</b-navbar-brand
+      >
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
@@ -45,21 +47,12 @@
 
         <b-col lg="6" class="my-1">
           <b-form-group
-            label="Filtrar por"
-            description="No marques ninguno para buscar en todos los registros"
             label-cols-sm="3"
             label-align-sm="right"
             label-size="sm"
             class="mb-0"
-            v-slot="{ ariaDescribedby }"
           >
-            <b-form-checkbox-group
-              v-model="filterOn"
-              :aria-describedby="ariaDescribedby"
-              class="mt-1"
-            >
-              <b-form-checkbox value="masterNick">Organizador</b-form-checkbox>
-              <b-form-checkbox value="boardgameTitle">Juego</b-form-checkbox>
+            <b-form-checkbox-group v-model="filterOn" class="mt-1">
             </b-form-checkbox-group>
           </b-form-group>
         </b-col>
@@ -99,7 +92,7 @@
           :current-page="currentPage"
           :items="items"
           :fields="fields"
-          class="table rounded-circle text-center"
+          class="table rounded-circle"
           :filter="filter"
           :filter-included-fields="filterOn"
           show-empty
@@ -107,36 +100,27 @@
         >
           <template v-slot:cell(acciones)="data">
             <div class="btn-group" role="group">
-              <button class="btn btn-primary" @click="editGame(data.item.id)">
-                Editar
-              </button>
               <button
                 class="btn btn-danger"
                 @click="confirmarDelete(data.item.id)"
               >
-                Borrar
+                Eliminar
               </button>
             </div>
-          </template>
-            <template v-slot:cell(date)="data">
-              {{ data.item.date | moment("DD/MM/YYYY") }}
-            </template>
-
-          <template v-slot:cell(verJugadores)="data">
-            <button
-              class="btn btn-success"
-              @click="visitPlayersOf(data.item.id)"
-            >
-              Ver
-            </button>
           </template>
         </b-table>
       </b-row>
     </b-container>
-
-    <b-button type="button" to="/addgame" class="newbtn">
-      Añadir Partida
-    </b-button>
+    <b-row>
+      <b-col>
+        <b-button type="button" @click="addPlayer()" class="newbtn">
+          Añadir Jugador
+        </b-button>
+        <b-button to="/games">
+          Volver
+        </b-button>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -146,55 +130,32 @@ import "../../store/index.js";
 
 export default {
   metaInfo: {
-    title: "Partidas | JuegosMesapp",
+    title: "Jugadores | JuegosMesapp",
   },
   data() {
     return {
       items: [],
-      url: "http://127.0.0.1:8000/api/games",
+      url: "http://127.0.0.1:8000/api/players/of/",
       perPage: 5,
       currentPage: 1,
       SortBy: "",
       pageOptions: [5, 10, 15, 20, 100],
       filter: null,
+      idCurrentGame: "",
       filterOn: [],
       fields: [
         {
           key: "id",
           sortable: true,
-          class: "text-center",
+          tdClass: "thead",
         },
         {
-          key: "masterNick",
+          key: "playerNick",
           sortable: true,
-          label: "Organizador",
-          class: "text-center",
-        },
-        {
-          key: "boardgameTitle",
-          sortable: true,
-          class: "text-center",
-          label: "Juego",
-        },
-        {
-          key: "date",
-          sortable: true,
-          label: "Fecha",
-          class: "text-center",
-        },
-        {
-          key: "time",
-          sortable: false,
-          class: "text-center",
-          label: "Hora",
+          label: "Nick",
+          tdClass: "thead",
         },
 
-        {
-          key: "verJugadores",
-          sortable: false,
-          label: "Jugadores",
-          class: "text-center",
-        },
         {
           key: "acciones",
           sortable: false,
@@ -206,26 +167,27 @@ export default {
   },
 
   methods: {
-    getGames() {
+    getPlayers() {
+      if (this.url.charAt(this.url.length - 1) == "/") {
+        this.url = this.url.concat(this.idCurrentGame.toString());
+      }
+
       axios.get(this.url).then((data) => {
         this.items = data.data;
       });
     },
 
-    editGame(idToEdit) {
-      this.$router.push("/games/edit/" + idToEdit);
-    },
-
-    deleteGame(idToDelete) {
+    deletePlayer(idToDelete) {
       axios
-        .delete("/games/delete/" + idToDelete)
+        .delete("/players/delete/" + idToDelete)
         .then(() => {
-          this.getGames();
+          this.getPlayers();
         })
         .catch((e) => {
           alert(e);
         });
     },
+
     confirmarDelete(idToDelete) {
       this.$confirm({
         message: "¿Estás seguro?",
@@ -235,7 +197,7 @@ export default {
         },
         callback: (confirm) => {
           if (confirm) {
-            this.deleteGame(idToDelete);
+            this.deletePlayer(idToDelete);
           }
         },
       });
@@ -245,25 +207,41 @@ export default {
       this.rows = filteredItems.length;
       this.currentPage = 1;
     },
-
-    visitPlayersOf(idToVisit) {
-      this.$router.push("/players/of/" + idToVisit);
+    addPlayer() {
+      this.idCurrentGame = window.location.pathname.substring(
+        window.location.pathname.lastIndexOf("/") + 1
+      );
+      this.$router.push("/games/addplayer/" + this.idCurrentGame);
     },
   },
 
   created() {
-    this.getGames();
+    this.idCurrentGame = window.location.pathname.substring(
+      window.location.pathname.lastIndexOf("/") + 1
+    );
+    this.getPlayers();
     this.rows = this.items.length;
     this.currentUser = JSON.parse(localStorage.user).user;
   },
 
   computed: {
-    rows() {
+    /*rows() {
       return this.items.length;
+    },*/
+
+    rows: {
+      get: function() {
+        return this.items.length;
+      },
+
+      set: function(newValue) {
+        this.items.length = newValue;
+      },
     },
 
     sortOptions() {
       // Create an options list from our fields
+
       return this.fields
         .filter((f) => f.sortable)
         .map((f) => {

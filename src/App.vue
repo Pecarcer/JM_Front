@@ -13,7 +13,8 @@
           <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/reviews">Administrar Reseñas</b-button></b-col>
           <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/games">Administrar Partidas</b-button></b-col>
           <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/comments">Administrar Comentarios</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/likes">Administrar Me gusta</b-button></b-col>
+          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/likes">Administrar Likes</b-button></b-col>
+          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/posts">Administrar Posts</b-button></b-col>
           <br>
           <b-col class="btnsidebar"><b-button block @click="logout()" variant="danger" size="lg">Salir</b-button></b-col>
           <b-img fluid height="50%" src="@/assets/greendice.png"/>
@@ -92,7 +93,5 @@ router-link{
 .green-bg {
   background-color: green;
 }
-
-
 
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-brand>Partidas</b-navbar-brand>
+      <b-navbar-brand>Comentarios</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
@@ -58,8 +58,8 @@
               :aria-describedby="ariaDescribedby"
               class="mt-1"
             >
-              <b-form-checkbox value="masterNick">Organizador</b-form-checkbox>
-              <b-form-checkbox value="boardgameTitle">Juego</b-form-checkbox>
+              <b-form-checkbox value="authorNick">Autor</b-form-checkbox>
+              <b-form-checkbox value="commentary">Comentario</b-form-checkbox>
             </b-form-checkbox-group>
           </b-form-group>
         </b-col>
@@ -99,7 +99,7 @@
           :current-page="currentPage"
           :items="items"
           :fields="fields"
-          class="table rounded-circle text-center"
+          class="table rounded-circle"
           :filter="filter"
           :filter-included-fields="filterOn"
           show-empty
@@ -107,9 +107,13 @@
         >
           <template v-slot:cell(acciones)="data">
             <div class="btn-group" role="group">
-              <button class="btn btn-primary" @click="editGame(data.item.id)">
+              <button
+                class="btn btn-primary"
+                @click="editComment(data.item.id)"
+              >
                 Editar
               </button>
+
               <button
                 class="btn btn-danger"
                 @click="confirmarDelete(data.item.id)"
@@ -118,25 +122,19 @@
               </button>
             </div>
           </template>
-            <template v-slot:cell(date)="data">
-              {{ data.item.date | moment("DD/MM/YYYY") }}
+
+            <template v-slot:cell(created_at)="data">
+              {{ data.item.created_at | moment("DD/MM/YYYY") }}
             </template>
 
-          <template v-slot:cell(verJugadores)="data">
-            <button
-              class="btn btn-success"
-              @click="visitPlayersOf(data.item.id)"
-            >
+          <template v-slot:cell(verResena)="data">
+            <button class="btn btn-success" @click="visitReview(data.item.review_id)">
               Ver
             </button>
           </template>
         </b-table>
       </b-row>
     </b-container>
-
-    <b-button type="button" to="/addgame" class="newbtn">
-      Añadir Partida
-    </b-button>
   </div>
 </template>
 
@@ -146,12 +144,12 @@ import "../../store/index.js";
 
 export default {
   metaInfo: {
-    title: "Partidas | JuegosMesapp",
+    title: "Comentarios | JuegosMesapp",
   },
   data() {
     return {
       items: [],
-      url: "http://127.0.0.1:8000/api/games",
+      url: "http://127.0.0.1:8000/api/comments",
       perPage: 5,
       currentPage: 1,
       SortBy: "",
@@ -162,39 +160,34 @@ export default {
         {
           key: "id",
           sortable: true,
-          class: "text-center",
+          tdClass: "thead",
         },
         {
-          key: "masterNick",
+          key: "authorNick",
           sortable: true,
-          label: "Organizador",
-          class: "text-center",
+          label: "Autor",
+          tdClass: "thead",
         },
         {
-          key: "boardgameTitle",
-          sortable: true,
-          class: "text-center",
-          label: "Juego",
+          key: "commentary",
+          sortable: false,
+          tdClass: "thead",
+          label: "Comentario"
         },
+     
         {
-          key: "date",
+          key: "created_at",
           sortable: true,
           label: "Fecha",
-          class: "text-center",
+          tdClass: "thead",
         },
-        {
-          key: "time",
+           {
+          key: "verResena",
           sortable: false,
-          class: "text-center",
-          label: "Hora",
+          label: "Reseña",
+          tdClass: "thead",
         },
-
-        {
-          key: "verJugadores",
-          sortable: false,
-          label: "Jugadores",
-          class: "text-center",
-        },
+    
         {
           key: "acciones",
           sortable: false,
@@ -206,21 +199,21 @@ export default {
   },
 
   methods: {
-    getGames() {
+    getComments() {
       axios.get(this.url).then((data) => {
         this.items = data.data;
       });
     },
 
-    editGame(idToEdit) {
-      this.$router.push("/games/edit/" + idToEdit);
+    editComment(idToEdit) {
+      this.$router.push("/comments/edit/" + idToEdit);
     },
 
-    deleteGame(idToDelete) {
+    deleteComment(idToDelete) {
       axios
-        .delete("/games/delete/" + idToDelete)
+        .delete("/comments/delete/" + idToDelete)
         .then(() => {
-          this.getGames();
+          this.getComments();
         })
         .catch((e) => {
           alert(e);
@@ -235,7 +228,7 @@ export default {
         },
         callback: (confirm) => {
           if (confirm) {
-            this.deleteGame(idToDelete);
+            this.deleteComment(idToDelete);
           }
         },
       });
@@ -243,27 +236,44 @@ export default {
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.rows = filteredItems.length;
+
+      /*
+      console.log("total filtrados");
+      console.log(filteredItems.length);
+      console.log("numero que debería ser igual que el anterior");
+      console.log(this.rows); */
+
       this.currentPage = 1;
     },
-
-    visitPlayersOf(idToVisit) {
-      this.$router.push("/players/of/" + idToVisit);
+    visitReview(idToVisit) {
+      this.$router.push("/reviews/profile/" + idToVisit);
     },
   },
 
   created() {
-    this.getGames();
+    this.getComments();
     this.rows = this.items.length;
     this.currentUser = JSON.parse(localStorage.user).user;
   },
 
   computed: {
-    rows() {
+    /*rows() {
       return this.items.length;
+    },*/
+
+    rows: {
+      get: function() {
+        return this.items.length;
+      },
+
+      set: function(newValue) {
+        this.items.length = newValue;
+      },
     },
 
     sortOptions() {
       // Create an options list from our fields
+
       return this.fields
         .filter((f) => f.sortable)
         .map((f) => {

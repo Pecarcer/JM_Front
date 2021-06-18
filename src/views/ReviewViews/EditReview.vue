@@ -47,9 +47,7 @@
               <div class="form-group">
                 <label>Usuario</label>
                 <select v-model="review.reviewer" class="form-control form-control-lg">
-                  <option :value="review.reviewer" selected>{{
-                    this.review.author
-                  }}</option>
+                
                   <option
                     v-for="item in users"
                     :value="item.id"
