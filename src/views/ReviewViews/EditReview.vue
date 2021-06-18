@@ -121,11 +121,9 @@ export default {
         .get(`http://127.0.0.1:8000/api/reviews/edit/${this.$route.params.id}`)
         .then((response) => {
           this.review = response.data[0];
-          //console.log(this.review[0].author)
         });
       this.getUsers();
       this.getBoardgames();
-      console.log(this.review.boardgameName)
     }
   },
   methods: {

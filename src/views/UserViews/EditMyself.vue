@@ -141,9 +141,7 @@ export default {
 
       axios
         .post(this.url, this.user)
-        .then(self.$router.push("/myprofile")).then(
-          console.log(this.user)
-        )
+        .then(self.$router.push("/myprofile"))
         .catch((err) => {
           console.log(err);
           this.showAlert = true;

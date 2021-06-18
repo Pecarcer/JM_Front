@@ -137,13 +137,12 @@ export default {
   created() {
     this.currentUser = JSON.parse(localStorage.user).user;
     if (this.currentUser.role != "admin") {
-      this.$router.push("/boardgames"); //TODO RETOCAR
+      this.$router.push("/boardgames"); 
     } else {
       axios
         .get(`http://127.0.0.1:8000/api/boardgames/edit/${this.$route.params.id}`)
         .then((response) => {
           this.boardgame = response.data;
-          console.log(response.data);
         });
     }
   },

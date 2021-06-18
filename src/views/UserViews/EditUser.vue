@@ -127,7 +127,7 @@ export default {
         .get(`http://127.0.0.1:8000/api/users/edit/${this.$route.params.id}`)
         .then((response) => {
           this.user = response.data;
-          console.log(response.data);
+          //console.log(response.data);
         });
     }
   },

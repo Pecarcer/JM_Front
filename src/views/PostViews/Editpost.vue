@@ -96,7 +96,6 @@ export default {
         .get(`http://127.0.0.1:8000/api/posts/edit/${this.$route.params.id}`)
         .then((response) => {
           this.post = response.data[0];
-          //console.log(this.review[0].author)
         });
       this.getUsers();
     }

@@ -8,13 +8,13 @@
           <b-col class="btnsidebar"><b-button block variant="primary" size="lg" to="/">Inicio</b-button></b-col>
           <b-col class="btnsidebar"><b-button block variant="primary" size="lg" to="/myprofile">Mi Perfil</b-button></b-col>
           <br>
-          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/users">Administrar Usuarios</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/boardgames">Administrar Juegos</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/reviews">Administrar Reseñas</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/games">Administrar Partidas</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/comments">Administrar Comentarios</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/likes">Administrar Likes</b-button></b-col>
-          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/posts">Administrar Posts</b-button></b-col>
+          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/users"><span v-if="this.currentUser.role=='Admin'">Admin. Usuarios</span> <span v-else>Ver Usuarios</span></b-button></b-col>
+          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/boardgames"><span v-if="this.currentUser.role=='Admin'">Admin. Juegos</span> <span v-else>Ver Juegos</span></b-button></b-col>
+          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/reviews"><span v-if="this.currentUser.role=='Admin'">Admin. Reseñas</span> <span v-else>Ver Reseñas</span></b-button></b-col>
+          <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/games"><span v-if="this.currentUser.role=='Admin'">Admin. Partidas</span> <span v-else>Ver Partidas</span></b-button></b-col>
+          <span v-if="this.currentUser.role=='Admin'"><b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/comments">Admin. Comentarios</b-button></b-col></span>
+          <span v-if="this.currentUser.role=='Admin'"><b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/likes">Admin. Likes</b-button></b-col></span>
+          <span v-if="this.currentUser.role=='Admin'"><b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/posts">Admin. Posts</b-button></b-col></span>
           <br>
           <b-col class="btnsidebar"><b-button block @click="logout()" variant="danger" size="lg">Salir</b-button></b-col>
           <b-img fluid height="50%" src="@/assets/greendice.png"/>
@@ -30,6 +30,12 @@ import { mapGetters } from 'vuex'
 
 
 export default {
+  data(){
+    return{
+      currentUser:'',
+    }
+  },
+
   computed: {
     ...mapGetters([
       'isLogged'
@@ -40,6 +46,9 @@ export default {
     logout () {
       this.$store.dispatch('logout')
     }
+  },
+  created(){
+    this.currentUser = JSON.parse(localStorage.user).user;
   }
 }
 </script>
