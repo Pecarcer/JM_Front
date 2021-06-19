@@ -131,7 +131,7 @@ export default {
     };
   },
   methods: {
-    saveBoardgame(){
+    saveBoardgame() {
       let self = this;
       axios
         .post("/boardgames/add", {
@@ -147,7 +147,7 @@ export default {
         .then(self.$router.push("/boardgames"))
         .catch((error) => {
           console.error(error.response.data);
-        }); 
+        });
     },
     onChange(e) {
       this.file = e.target.files[0];
@@ -155,6 +155,9 @@ export default {
   },
   created() {
     this.currentUser = JSON.parse(localStorage.user).user;
+    if (this.currentUser.role != "Admin") {
+      this.$router.push("/boardgames");
+    }
   },
 };
 </script>

@@ -89,7 +89,8 @@ export default {
   },
   created() {
     this.currentUser = JSON.parse(localStorage.user).user;
-    this.getUsers();
+    if (this.currentUser.role != "Admin") { this.$router.push("/users"); } else {
+    this.getUsers();}
   },
 };
 </script>

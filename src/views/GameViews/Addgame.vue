@@ -27,14 +27,16 @@
             </select>
           </div>
 
-          <div class="form-group">
-            <label>Organizador</label>
-            <select v-model="master" class="form-control form-control-lg">
-              <option v-for="item in users" :value="item.id" :key="item.id">{{
-                item.nick
-              }}</option>
-            </select>
-          </div>
+          <span v-if="currentUser.role == 'Admin'">
+            <div class="form-group">
+              <label>Organizador</label>
+              <select v-model="master" class="form-control form-control-lg">
+                <option v-for="item in users" :value="item.id" :key="item.id">{{
+                  item.nick
+                }}</option>
+              </select>
+            </div>
+          </span>
 
           <div class="form-group">
             <label>Fecha</label>
@@ -47,8 +49,12 @@
           </div>
 
           <div class="form-group">
-              <label>Hora</label>
-            <b-form-timepicker v-model="time" locale="es" placeholder="Selecciona la hora"></b-form-timepicker>
+            <label>Hora</label>
+            <b-form-timepicker
+              v-model="time"
+              locale="es"
+              placeholder="Selecciona la hora"
+            ></b-form-timepicker>
           </div>
 
           <button class="btn btn-lg btn-block" @click="saveGame()">
@@ -85,18 +91,33 @@ export default {
   },
   methods: {
     saveGame() {
-      let self = this;
-      axios
-        .post("/games/add", {
-          master: this.master,
-          boardgame_id: this.boardgame_id,
-          date: this.date,
-          time: this.time,          
-        })
-        .then(self.$router.push("/games"))
-        .catch((e) => {
-          alert(e);
-        });
+      if (this.currentUser.role != "Admin") {
+        let self = this;
+        axios
+          .post("/games/add", {
+            master: this.currentUser.id,
+            boardgame_id: this.boardgame_id,
+            date: this.date,
+            time: this.time,
+          })
+          .then(self.$router.push("/games"))
+          .catch((e) => {
+            alert(e);
+          });
+      } else {
+        let self = this;
+        axios
+          .post("/games/add", {
+            master: this.master,
+            boardgame_id: this.boardgame_id,
+            date: this.date,
+            time: this.time,
+          })
+          .then(self.$router.push("/games"))
+          .catch((e) => {
+            alert(e);
+          });
+      }
     },
 
     getUsers() {

@@ -13,11 +13,10 @@
           <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/reviews"><span v-if="this.currentUser.role=='Admin'">Admin. Reseñas</span> <span v-else>Ver Reseñas</span></b-button></b-col>
           <b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/games"><span v-if="this.currentUser.role=='Admin'">Admin. Partidas</span> <span v-else>Ver Partidas</span></b-button></b-col>
           <span v-if="this.currentUser.role=='Admin'"><b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/comments">Admin. Comentarios</b-button></b-col></span>
-          <span v-if="this.currentUser.role=='Admin'"><b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/likes">Admin. Likes</b-button></b-col></span>
           <span v-if="this.currentUser.role=='Admin'"><b-col class="btnsidebar"><b-button block variant="success" size="lg" to="/posts">Admin. Posts</b-button></b-col></span>
           <br>
           <b-col class="btnsidebar"><b-button block @click="logout()" variant="danger" size="lg">Salir</b-button></b-col>
-          <b-img fluid height="50%" src="@/assets/greendice.png"/>
+          <b-img fluid width="200%" src="@/assets/greendice.png"/>
           </div>
         </b-sidebar>
       </div>

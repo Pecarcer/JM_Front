@@ -107,17 +107,22 @@
           @filtered="onFiltered"
         >
           <template v-slot:cell(acciones)="data">
-            <div class="btn-group" role="group">
-              <button class="btn btn-primary" @click="editReview(data.item.id)">
-                Editar
-              </button>
-              <button
-                class="btn btn-danger"
-                @click="confirmarDelete(data.item.id)"
-              >
-                Borrar
-              </button>
-            </div>
+            <span v-if="currentUser.role == 'Admin'">
+              <div class="btn-group" role="group">
+                <button
+                  class="btn btn-primary"
+                  @click="editReview(data.item.id)"
+                >
+                  Editar
+                </button>
+                <button
+                  class="btn btn-danger"
+                  @click="confirmarDelete(data.item.id)"
+                >
+                  Borrar
+                </button>
+              </div>
+            </span>
           </template>
 
           <template v-slot:cell(score)="data">
@@ -135,10 +140,11 @@
         </b-table>
       </b-row>
     </b-container>
-
-    <b-button type="button" to="/addreview" class="newbtn">
-      Añadir Reseña
-    </b-button>
+    
+      <b-button type="button" to="/addreview" class="newbtn">
+        Añadir Reseña
+      </b-button>
+    
   </div>
 </template>
 
@@ -219,14 +225,18 @@ export default {
     },
 
     deleteReview(idToDelete) {
-      axios
-        .delete("/reviews/delete/" + idToDelete)
-        .then(() => {
-          this.getReviews();
-        })
-        .catch((e) => {
-          alert(e);
-        });
+      if (this.currentUser.role != "Admin") {
+        this.$router.push("/reviews");
+      } else {
+        axios
+          .delete("/reviews/delete/" + idToDelete)
+          .then(() => {
+            this.getReviews();
+          })
+          .catch((e) => {
+            alert(e);
+          });
+      }
     },
     confirmarDelete(idToDelete) {
       this.$confirm({

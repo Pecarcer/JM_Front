@@ -106,6 +106,7 @@
           @filtered="onFiltered"
         >
           <template v-slot:cell(acciones)="data">
+            <span v-if="currentUser.role=='Admin'">
             <div class="btn-group" role="group">
               <button class="btn btn-primary" @click="editGame(data.item.id)">
                 Editar
@@ -117,6 +118,7 @@
                 Borrar
               </button>
             </div>
+            </span>
           </template>
             <template v-slot:cell(date)="data">
               {{ data.item.date | moment("DD/MM/YYYY") }}

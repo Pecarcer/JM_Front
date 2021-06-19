@@ -85,7 +85,7 @@ import axios from "axios";
 
 export default {
   metaInfo: {
-    title: "Editar Comentario | JuegosMesapp",
+    title: "Editar Partida | JuegosMesapp",
   },
   data() {
     return {

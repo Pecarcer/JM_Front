@@ -90,7 +90,7 @@ export default {
   created() {
     this.currentUser = JSON.parse(localStorage.user).user;
     if (this.currentUser.role != "Admin") {
-      this.$router.push("/reviews");
+      this.$router.push("/");
     } else {
       axios
         .get(`http://127.0.0.1:8000/api/posts/edit/${this.$route.params.id}`)

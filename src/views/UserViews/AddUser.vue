@@ -68,8 +68,8 @@
             <div class="form-group">
               <label>Selecciona rol</label>
               <select v-model="role" class="form-control form-control-lg">
-                <option value="user" selected>Usuario</option>
-                <option value="admin">Administrador</option>
+                <option value="User" selected>Usuario</option>
+                <option value="Admin">Administrador</option>
               </select>
             </div>
 
@@ -124,6 +124,9 @@ export default {
   },
     created() {
     this.currentUser = JSON.parse(localStorage.user).user;
+          if (this.currentUser.role != "Admin") {
+        this.$router.push("/users");
+      } 
   },
 };
 </script>

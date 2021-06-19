@@ -99,6 +99,7 @@
           @filtered="onFiltered"
         >
           <template v-slot:cell(acciones)="data">
+            <span v-if="currentUser.role=='Admin'">
             <div class="btn-group" role="group">
               <button
                 class="btn btn-danger"
@@ -106,16 +107,17 @@
               >
                 Eliminar
               </button>
-            </div>
+            </div></span>
           </template>
         </b-table>
       </b-row>
     </b-container>
     <b-row>
       <b-col>
+        <span v-if="currentUser.role=='Admin'">
         <b-button type="button" @click="addPlayer()" class="newbtn">
           Añadir Jugador
-        </b-button>
+        </b-button></span>
         <b-button to="/games">
           Volver
         </b-button>

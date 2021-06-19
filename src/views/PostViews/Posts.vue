@@ -107,6 +107,7 @@
           @filtered="onFiltered"
         >
           <template v-slot:cell(acciones)="data">
+            <span v-if="currentUser.role=='Admin'">
             <div class="btn-group" role="group">
               <button class="btn btn-primary" @click="editPost(data.item.id)">
                 Editar
@@ -118,6 +119,7 @@
                 Borrar
               </button>
             </div>
+            </span>
           </template>
         </b-table>
       </b-row>
@@ -228,8 +230,13 @@ export default {
 
   created() {
     this.currentUser = JSON.parse(localStorage.user).user;
-    this.getPosts();
-    this.rows = this.items.length;
+    if (this.currentUser.role != "Admin") {
+      this.$router.push("/");
+    } else {
+      this.currentUser = JSON.parse(localStorage.user).user;
+      this.getPosts();
+      this.rows = this.items.length;
+    }
   },
 
   computed: {

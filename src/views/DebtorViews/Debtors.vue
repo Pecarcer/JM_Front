@@ -237,8 +237,9 @@ export default {
 
   created() {
     this.currentUser = JSON.parse(localStorage.user).user;
+    if (this.currentUser.role != "Admin") { this.$router.push("/users"); } else {
     this.getDebtors();
-    this.rows = this.items.length;
+    this.rows = this.items.length;}
   },
 
   computed: {

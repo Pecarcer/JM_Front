@@ -76,11 +76,13 @@ export default {
     },
   },
   created() {
+    this.currentUser = JSON.parse(localStorage.user).user;
+    if (this.currentUser.role != "Admin") { this.$router.push("/games"); } else {
     this.idCurrentGame = window.location.pathname.substring(
       window.location.pathname.lastIndexOf("/") + 1
     );
     this.currentUser = JSON.parse(localStorage.user).user;
-    this.getUsers();
+    this.getUsers();}
   },
 };
 </script>

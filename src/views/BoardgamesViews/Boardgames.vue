@@ -107,36 +107,42 @@
           @filtered="onFiltered"
         >
           <template v-slot:cell(acciones)="data">
-            <div class="btn-group" role="group">
-                <button class="btn btn-primary" @click="editBoardgame(data.item.id)">
+            
+            <span v-if="currentUser.role == 'Admin'">
+              <div class="btn-group" role="group">
+                <button
+                  class="btn btn-primary"
+                  @click="editBoardgame(data.item.id)"
+                >
                   Editar
-                </button>            
-
+                </button>
 
                 <button
                   class="btn btn-danger"
-                  @click="confirmarDelete(data.item.id)">
+                  @click="confirmarDelete(data.item.id)"
+                >
                   Borrar
-                </button>              
-            </div>
+                </button>
+              </div>
+            </span>
           </template>
 
-          <template v-slot:cell(verResenas)="data">         
-         
-              <button
-                class="btn btn-success"
-                @click="visitBoardgameProfile(data.item.id)">
-                Ver
-              </button>
-           
+          <template v-slot:cell(verResenas)="data">
+            <button
+              class="btn btn-success"
+              @click="visitBoardgameProfile(data.item.id)"
+            >
+              Ver
+            </button>
           </template>
         </b-table>
       </b-row>
     </b-container>
-
-    <b-button type="button" to="/addboardgame" class="newbtn">
-      Añadir Juego
-    </b-button>
+    <span v-if="currentUser.role == 'Admin'">
+      <b-button type="button" to="/addboardgame" class="newbtn">
+        Añadir Juego
+      </b-button>
+    </span>
   </div>
 </template>
 
@@ -162,64 +168,64 @@ export default {
         {
           key: "id",
           sortable: true,
-          class: 'text-center'
+          class: "text-center",
         },
         {
           key: "title",
           sortable: true,
           label: "Nombre",
-          class: 'text-center'
+          class: "text-center",
         },
         {
           key: "creator",
           sortable: true,
-          class: 'text-center',
+          class: "text-center",
           label: "Autoría",
         },
         {
           key: "release",
           sortable: true,
           label: "Publicación",
-          class: 'text-center'
+          class: "text-center",
         },
         {
           key: "min_num_players",
           sortable: true,
-          class: 'text-center',
+          class: "text-center",
           label: "Mínimo Jugadores",
         },
         {
           key: "max_num_players",
           sortable: true,
           label: "Máximo Jugadores",
-          class: 'text-center'
+          class: "text-center",
         },
 
         {
           key: "playing_time",
           sortable: true,
           label: "Duración Partida",
-          class: 'text-center'
+          class: "text-center",
         },
         {
           key: "ages",
           sortable: true,
           label: "Edad mínima",
-          class: 'text-center'
+          class: "text-center",
         },
         {
           key: "publisher",
           sortable: true,
           label: "Editorial",
-          class: 'text-center'
+          class: "text-center",
         },
         {
           key: "verResenas",
           sortable: false,
           label: "Reseñas",
-          class: 'text-center'
+          class: "text-center",
         },
-                {
+        {
           key: "acciones",
           sortable: false,
           label: "Acciones",
@@ -241,14 +247,18 @@ export default {
     },
 
     deleteBoardgame(idToDelete) {
-      axios
-        .delete("/boardgames/delete/" + idToDelete)
-        .then(() => {
-          this.getBoardgames();
-        })
-        .catch((e) => {
-          alert(e);
-        });
+      if (this.currentUser.role != "Admin") {
+        this.$router.push("/users");
+      } else {
+        axios
+          .delete("/boardgames/delete/" + idToDelete)
+          .then(() => {
+            this.getBoardgames();
+          })
+          .catch((e) => {
+            alert(e);
+          });
+      }
     },
     confirmarDelete(idToDelete) {
       this.$confirm({

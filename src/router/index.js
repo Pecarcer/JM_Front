@@ -230,14 +230,6 @@ const routes = [
     component: () => import('../views/PostViews/Posts.vue') 
   },
   {
-    path: '/likes',
-    name: 'AdminLikes',
-    meta: {
-      auth: true
-    },
-    component: () => import('../views/LikesViews/Likes.vue') 
-  },
-  {
     path: '/addpost',
     name: 'AddPosts',
     meta: {

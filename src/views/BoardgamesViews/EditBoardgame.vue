@@ -136,7 +136,7 @@ export default {
   },
   created() {
     this.currentUser = JSON.parse(localStorage.user).user;
-    if (this.currentUser.role != "admin") {
+    if (this.currentUser.role != "Admin") {
       this.$router.push("/boardgames"); 
     } else {
       axios

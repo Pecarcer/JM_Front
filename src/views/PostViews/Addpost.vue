@@ -15,42 +15,41 @@
       <b-col></b-col>
       <b-col>
         <div class="card">
-          
-            <div class="form-group">
-              <label>Autoria</label>
-              <select v-model="poster" class="form-control form-control-lg">
-                   <option v-for="item in users" :value="item.id" :key="item.id">{{item.nick}}</option>
-              </select>
-            </div>
+          <div class="form-group">
+            <label>Autoria</label>
+            <select v-model="poster" class="form-control form-control-lg">
+              <option v-for="item in users" :value="item.id" :key="item.id">{{
+                item.nick
+              }}</option>
+            </select>
+          </div>
 
-            <div class="form-group">
-              <label>Título</label>
-              <input
-                type="text"
-                name="score"
-                v-model="title"
-                class="form-control form-control-lg"
-              />
-            </div>
+          <div class="form-group">
+            <label>Título</label>
+            <input
+              type="text"
+              name="score"
+              v-model="title"
+              class="form-control form-control-lg"
+            />
+          </div>
 
-            <div class="form-group">
-              <label>Texto</label>
-              <b-form-textarea
-                v-model="post_text"
-                rows="3"
-                max-rows="6"
-              ></b-form-textarea>
-            </div>
+          <div class="form-group">
+            <label>Texto</label>
+            <b-form-textarea
+              v-model="post_text"
+              rows="3"
+              max-rows="6"
+            ></b-form-textarea>
+          </div>
 
+          <button class="btn btn-lg btn-block" @click="savePost()">
+            Añadir
+          </button>
 
-            <button class="btn btn-lg btn-block" @click="savePost()">
-              Añadir
-            </button>
-          
           <b-button class="btn btn-lg btn-block volver" to="/posts">
             Volver
           </b-button>
-          
         </div>
       </b-col>
       <b-col></b-col>
@@ -70,7 +69,7 @@ export default {
     return {
       poster: "",
       post_text: "",
-      title: "",   
+      title: "",
       users: [],
     };
   },
@@ -83,9 +82,7 @@ export default {
           post_text: this.post_text,
           title: this.title,
         })
-        .then(
-            self.$router.push("/posts")
-            )
+        .then(self.$router.push("/posts"))
         .catch((e) => {
           alert(e);
         });
@@ -96,11 +93,14 @@ export default {
         this.users = data.data;
       });
     },
-
   },
   created() {
     this.currentUser = JSON.parse(localStorage.user).user;
-    this.getUsers();
+    if (this.currentUser.role != "Admin") {
+      this.$router.push("/");
+    } else {
+      this.getUsers();
+    }
   },
 };
 </script>

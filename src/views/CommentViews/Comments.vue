@@ -244,9 +244,10 @@ export default {
   },
 
   created() {
-    this.getComments();
-    this.rows = this.items.length;
     this.currentUser = JSON.parse(localStorage.user).user;
+    if (this.currentUser.role != "Admin") { this.$router.push("/"); } else {
+    this.getComments();
+    this.rows = this.items.length;}    
   },
 
   computed: {

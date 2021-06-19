@@ -15,50 +15,55 @@
       <b-col></b-col>
       <b-col>
         <div class="card">
-          
-            <div class="form-group">
-              <label>Juego</label>
-              <select v-model="boardgame_id" class="form-control form-control-lg">
-                   <option v-for="item in boardgames" :value="item.id" :key="item.id">{{item.title}}</option>
-              </select>
-            </div>
-
+          <div class="form-group">
+            <label>Juego</label>
+            <select v-model="boardgame_id" class="form-control form-control-lg">
+              <option
+                v-for="item in boardgames"
+                :value="item.id"
+                :key="item.id"
+                >{{ item.title }}</option
+              >
+            </select>
+          </div>
+          <span v-if="currentUser.role == 'Admin'">
             <div class="form-group">
               <label>Usuario</label>
               <select v-model="reviewer" class="form-control form-control-lg">
-                   <option v-for="item in users" :value="item.id" :key="item.id">{{item.nick}}</option>
+                <option v-for="item in users" :value="item.id" :key="item.id">{{
+                  item.nick
+                }}</option>
               </select>
             </div>
+          </span>
 
-            <div class="form-group">
-              <label>Nota</label>
-              <input
-                type="text"
-                name="score"
-                v-model="score"
-                class="form-control form-control-lg"
-              />
-            </div>
+          <div class="form-group">
+            <label>Nota</label>
+            <input
+              type="text"
+              name="score"
+              v-model="score"
+              class="form-control form-control-lg"
+            />
+          </div>
 
-            <div class="form-group">
-              <label>Opinion</label>
-              <input
-                type="text"
-                name="opinion"
-                v-model="opinion"
-                class="form-control form-control-lg"
-              />
-            </div>
+          <div class="form-group">
+            <label>Opinion</label>
+            <input
+              type="text"
+              name="opinion"
+              v-model="opinion"
+              class="form-control form-control-lg"
+            />
+          </div>
 
+          <button class="btn btn-lg btn-block" @click="saveReview()">
+            Añadir
+          </button>
 
-            <button class="btn btn-lg btn-block" @click="saveReview()">
-              Añadir
-            </button>
-          
           <b-button class="btn btn-lg btn-block volver" to="/reviews">
             Volver
           </b-button>
-          
         </div>
       </b-col>
       <b-col></b-col>
@@ -80,26 +85,40 @@ export default {
       boardgame_id: "",
       score: "",
       opinion: "",
+      currentUser: "",
       users: [],
       boardgames: [],
     };
   },
   methods: {
     saveReview() {
-      let self = this;
-      axios
-        .post("/reviews/add", {
-          reviewer: this.reviewer,
-          boardgame_id: this.boardgame_id,
-          score: this.score,
-          opinion: this.opinion,
-        })
-        .then(
-            self.$router.push("/reviews")
-            )
-        .catch((e) => {
-          alert(e);
-        });
+      if (this.currentUser.role != "Admin") {
+        let self = this;
+        axios
+          .post("/reviews/add", {
+            reviewer: this.currentUser.id,
+            boardgame_id: this.boardgame_id,
+            score: this.score,
+            opinion: this.opinion,
+          })
+          .then(self.$router.push("/reviews"))
+          .catch((e) => {
+            alert(e);
+          });
+      } else {
+        let self = this;
+        axios
+          .post("/reviews/add", {
+            reviewer: this.reviewer,
+            boardgame_id: this.boardgame_id,
+            score: this.score,
+            opinion: this.opinion,
+          })
+          .then(self.$router.push("/reviews"))
+          .catch((e) => {
+            alert(e);
+          });
+      }
     },
 
     getUsers() {
