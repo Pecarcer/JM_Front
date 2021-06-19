@@ -203,7 +203,7 @@ export default {
 
         {
           key: "playing_time",
-          sortable: true,
+          sortable: false,
           label: "Duración Partida",
           class: "text-center",
         },
