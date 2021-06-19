@@ -124,7 +124,7 @@ export default {
       this.$router.push("/users");
     } else {
       axios
-        .get(`http://127.0.0.1:8000/api/users/edit/${this.$route.params.id}`)
+        .get(`/users/edit/${this.$route.params.id}`)
         .then((response) => {
           this.user = response.data;
           //console.log(response.data);
@@ -136,7 +136,7 @@ export default {
       let self = this;
       axios
         .post(
-          `http://127.0.0.1:8000/api/users/update/${this.$route.params.id}`,
+          `/users/update/${this.$route.params.id}`,
           this.user
         )
         .then(self.$router.push("/users"))

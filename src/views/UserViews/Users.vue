@@ -185,7 +185,7 @@ export default {
     return {
       items: [],
       currentUser: "",
-      url: "http://127.0.0.1:8000/api/users",
+      url: "/users",
       perPage: 5,
       currentPage: 1,
       SortBy: "",

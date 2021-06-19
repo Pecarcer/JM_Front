@@ -153,7 +153,7 @@ export default {
   data() {
     return {
       items: [],
-      url: "http://127.0.0.1:8000/api/games",
+      url: "/games",
       perPage: 5,
       currentPage: 1,
       SortBy: "",

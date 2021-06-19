@@ -98,7 +98,7 @@ export default {
   data() {
     return {
       items: [],
-      url: "http://127.0.0.1:8000/api/posts",
+      url: "/posts",
       currentPage: 1,
       perPage: 3,
       totalRows: "",
@@ -131,9 +131,9 @@ export default {
     },
   },
   created() {
-    this.getPosts();
-    this.totalRows = this.items.length;
     this.currentUser = JSON.parse(localStorage.user).user;
+    this.getPosts();
+    this.totalRows = this.items.length;    
     this.paginate(this.perPage, 0);
   },
 };

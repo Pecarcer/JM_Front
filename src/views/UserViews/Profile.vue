@@ -237,7 +237,7 @@ export default {
       this.idToSearch = window.location.pathname.substring(
         window.location.pathname.lastIndexOf("/") + 1
       );
-      this.urlReviews = "http://127.0.0.1:8000/api/reviews/madeby/";
+      this.urlReviews = "/reviews/madeby/";
       this.urlReviews = this.urlReviews.concat(this.idToSearch.toString());
 
       axios.get(this.urlReviews).then((data) => {
@@ -248,7 +248,7 @@ export default {
       this.idToSearch = window.location.pathname.substring(
         window.location.pathname.lastIndexOf("/") + 1
       );
-      this.urlGamesByUser = "http://127.0.0.1:8000/api/games/madeby/";
+      this.urlGamesByUser = "/games/madeby/";
       this.urlGamesByUser = this.urlGamesByUser.concat(
         this.idToSearch.toString()
       );
@@ -261,7 +261,7 @@ export default {
       this.idToSearch = window.location.pathname.substring(
         window.location.pathname.lastIndexOf("/") + 1
       );
-      this.urlGamesWithUser = "http://127.0.0.1:8000/api/players/with/";
+      this.urlGamesWithUser = "/players/with/";
       this.urlGamesWithUser = this.urlGamesWithUser.concat(
         this.idToSearch.toString()
       );
@@ -278,7 +278,7 @@ export default {
   created() {
     this.currentUser = JSON.parse(localStorage.user).user;
     axios
-      .get(`http://127.0.0.1:8000/api/users/edit/${this.$route.params.id}`)
+      .get(`/users/edit/${this.$route.params.id}`)
       .then((response) => {
         this.profileUser = response.data;
       });

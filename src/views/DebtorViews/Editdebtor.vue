@@ -82,7 +82,7 @@ export default {
       this.$router.push("/debtors");
     } else {
       axios
-        .get(`http://127.0.0.1:8000/api/debtors/edit/${this.$route.params.id}`)
+        .get(`/debtors/edit/${this.$route.params.id}`)
         .then((response) => {
           this.debtor = response.data[0];
         });
@@ -94,7 +94,7 @@ export default {
       let self = this;
       axios
         .post(
-          `http://127.0.0.1:8000/api/debtors/update/${this.$route.params.id}`,
+          `/debtors/update/${this.$route.params.id}`,
           this.debtor
         )
         .then(self.$router.push("/debtors"))

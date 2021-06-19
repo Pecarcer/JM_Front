@@ -142,7 +142,7 @@ export default {
   data() {
     return {
       items: [],
-      url: "http://127.0.0.1:8000/api/posts",
+      url: "/posts",
       perPage: 5,
       currentPage: 1,
       SortBy: "",

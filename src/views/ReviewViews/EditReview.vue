@@ -118,7 +118,7 @@ export default {
       this.$router.push("/reviews");
     } else {
       axios
-        .get(`http://127.0.0.1:8000/api/reviews/edit/${this.$route.params.id}`)
+        .get(`/reviews/edit/${this.$route.params.id}`)
         .then((response) => {
           this.review = response.data[0];
         });
@@ -131,7 +131,7 @@ export default {
       let self = this;
       axios
         .post(
-          `http://127.0.0.1:8000/api/reviews/update/${this.$route.params.id}`,
+          `/reviews/update/${this.$route.params.id}`,
           this.review
         )
         .then(self.$router.push("/reviews"))

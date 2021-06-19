@@ -15,14 +15,7 @@
       <b-col></b-col>
       <b-col>
         <div class="card">
-          <div class="form-group">
-            <label>Autoria</label>
-            <select v-model="poster" class="form-control form-control-lg">
-              <option v-for="item in users" :value="item.id" :key="item.id">{{
-                item.nick
-              }}</option>
-            </select>
-          </div>
+       
 
           <div class="form-group">
             <label>Título</label>
@@ -78,7 +71,7 @@ export default {
       let self = this;
       axios
         .post("/posts/add", {
-          poster: this.poster,
+          poster: this.currentUser.id,
           post_text: this.post_text,
           title: this.title,
         })

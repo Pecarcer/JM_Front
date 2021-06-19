@@ -127,7 +127,7 @@ export default {
       this.idToSearch = window.location.pathname.substring(
         window.location.pathname.lastIndexOf("/") + 1
       );
-      this.urlReview = "http://127.0.0.1:8000/api/reviews/getWithName/";
+      this.urlReview = "/reviews/getWithName/";
       this.urlReview = this.urlReview.concat(this.idToSearch.toString());
 
       axios.get(this.urlReview).then((data) => {

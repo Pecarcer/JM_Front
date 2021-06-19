@@ -100,7 +100,7 @@ export default {
       this.$router.push("/games");
     } else {
       axios
-        .get(`http://127.0.0.1:8000/api/games/edit/${this.$route.params.id}`)
+        .get(`/games/edit/${this.$route.params.id}`)
         .then((response) => {
           this.game = response.data[0];
         });
@@ -111,7 +111,7 @@ export default {
       let self = this;
       axios
         .post(
-          `http://127.0.0.1:8000/api/games/update/${this.$route.params.id}`,
+          `/games/update/${this.$route.params.id}`,
           this.game
         )
         .then(self.$router.push("/games"))

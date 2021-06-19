@@ -78,7 +78,7 @@ export default {
       this.$router.push("/comments");
     } else {
       axios
-        .get(`http://127.0.0.1:8000/api/comments/edit/${this.$route.params.id}`)
+        .get(`/comments/edit/${this.$route.params.id}`)
         .then((response) => {
           this.comment = response.data[0];
         });
@@ -89,7 +89,7 @@ export default {
       let self = this;
       axios
         .post(
-          `http://127.0.0.1:8000/api/comments/update/${this.$route.params.id}`,
+          `/comments/update/${this.$route.params.id}`,
           this.comment
         )
         .then(self.$router.push("/comments"))

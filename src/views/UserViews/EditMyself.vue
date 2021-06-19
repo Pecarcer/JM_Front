@@ -107,7 +107,7 @@ export default {
     this.currentUserId = JSON.parse(localStorage.user).user.id;
     this.currentUser = JSON.parse(localStorage.user);
 
-    this.url = "http://127.0.0.1:8000/api/users/edit/";
+    this.url = "/users/edit/";
     this.url = this.url.concat(this.currentUserId.toString());
 
     axios
@@ -121,7 +121,7 @@ export default {
       let self = this;
 
       this.idToUpdate = this.currentUserId;
-      this.url = "http://127.0.0.1:8000/api/users/update/";
+      this.url = "/users/update/";
       this.url = this.url.concat(this.idToUpdate.toString());
 
       axios

@@ -167,7 +167,7 @@ export default {
       this.idToSearch = window.location.pathname.substring(
         window.location.pathname.lastIndexOf("/") + 1
       );
-      this.urlReviews = "http://127.0.0.1:8000/api/reviews/ofBoardgame/";
+      this.urlReviews = "/reviews/ofBoardgame/";
       this.urlReviews = this.urlReviews.concat(this.idToSearch.toString());
 
       axios.get(this.urlReviews).then((data) => {
@@ -184,7 +184,7 @@ export default {
     this.currentUser = JSON.parse(localStorage.user).user;
 
     axios
-      .get(`http://127.0.0.1:8000/api/boardgames/edit/${this.$route.params.id}`)
+      .get(`/boardgames/edit/${this.$route.params.id}`)
       .then((response) => {
         this.currentBoardgame = response.data;
       });
