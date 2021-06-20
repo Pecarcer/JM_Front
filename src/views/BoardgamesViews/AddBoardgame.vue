@@ -131,6 +131,9 @@ export default {
     };
   },
   methods: {
+    /**
+     * Saves new boardgame
+     */
     saveBoardgame() {
       let self = this;
       axios

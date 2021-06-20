@@ -1,7 +1,9 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-brand>Reseña de {{currentReview.boardgameName}}</b-navbar-brand>
+      <b-navbar-brand
+        >Reseña de {{ currentReview.boardgameName }}</b-navbar-brand
+      >
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
@@ -90,7 +92,7 @@
                 ></b-card-text
               >
             </b-card>
-            
+
             <br />
           </div>
         </b-col>
@@ -123,6 +125,9 @@ export default {
   },
 
   methods: {
+    /*
+     * Get the data of the current review
+     */
     getReview() {
       this.idToSearch = window.location.pathname.substring(
         window.location.pathname.lastIndexOf("/") + 1
@@ -134,7 +139,9 @@ export default {
         this.currentReview = data.data[0];
       });
     },
-
+    /*
+     * Gets all the comments of the current review
+     */
     getComments() {
       this.idToSearch = window.location.pathname.substring(
         window.location.pathname.lastIndexOf("/") + 1
@@ -146,7 +153,9 @@ export default {
         this.comments = data.data;
       });
     },
-
+    /*
+     * Gets all the likes of the current review
+     */
     getLikes() {
       this.idToSearch = window.location.pathname.substring(
         window.location.pathname.lastIndexOf("/") + 1
@@ -159,6 +168,9 @@ export default {
         this.checkUserLike();
       });
     },
+    /*
+     * creates a like from the current user
+     */
     addLike() {
       this.review_id = window.location.pathname.substring(
         window.location.pathname.lastIndexOf("/") + 1
@@ -174,8 +186,11 @@ export default {
           alert(e);
         });
       this.getLikes();
-      this.liked=true;
+      this.liked = true;
     },
+    /*
+     * removes like from the current user
+     */
     removeLike() {
       this.idToSearch = window.location.pathname.substring(
         window.location.pathname.lastIndexOf("/") + 1
@@ -187,20 +202,20 @@ export default {
 
       axios.get(this.urlcheck).then((data) => {
         this.likeToDelete = data.data[0];
-           axios
-        .delete("/likes/delete/" + this.likeToDelete.id)
-        .then(() => {
-          this.getLikes();
-          this.liked=false;
-        })
-        .catch((e) => {
-          alert(e);
-        });
+        axios
+          .delete("/likes/delete/" + this.likeToDelete.id)
+          .then(() => {
+            this.getLikes();
+            this.liked = false;
+          })
+          .catch((e) => {
+            alert(e);
+          });
       });
-
-   
     },
-
+    /*
+     * adds a new comment
+     */
     addComment() {
       this.review_id = window.location.pathname.substring(
         window.location.pathname.lastIndexOf("/") + 1
@@ -218,13 +233,14 @@ export default {
           alert(e);
         });
     },
-
+    /*
+     * checks if the current user already likes the current review
+     */
     checkUserLike() {
       this.likes.forEach((like) => {
-        if (like.user === this.currentUser.id) {          
+        if (like.user === this.currentUser.id) {
           this.liked = true;
         }
-        
       });
     },
   },
@@ -234,7 +250,6 @@ export default {
     this.getReview();
     this.getComments();
     this.getLikes();
-
   },
 };
 </script>

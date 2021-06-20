@@ -24,37 +24,34 @@
       <b-row>
         <b-col></b-col>
         <b-col>
-          <div class="card">            
+          <div class="card">
+            <div class="form-group">
+              <label>Usuario</label>
+              <input
+                type="text"
+                name="score"
+                v-model="debtor.debtorNick"
+                class="form-control form-control-lg"
+                disabled
+              />
+            </div>
 
+            <div class="form-group">
+              <label>Meses de retraso</label>
+              <input
+                type="text"
+                name="score"
+                v-model="debtor.months_overdue"
+                class="form-control form-control-lg"
+              />
+            </div>
 
-                <div class="form-group">
-                <label>Usuario</label>
-                <input
-                  type="text"
-                  name="score"
-                  v-model="debtor.debtorNick"
-                  class="form-control form-control-lg"
-                  disabled
-                />
-              </div>
-
-              <div class="form-group">
-                <label>Meses de retraso</label>
-                <input
-                  type="text"
-                  name="score"
-                  v-model="debtor.months_overdue"
-                  class="form-control form-control-lg"
-                />
-              </div>
-
-
-              <button class="btn btn-lg btn-block" @click="saveDebtorChanges()">
-                Editar
-              </button>
-               <b-button class="btn btn-lg btn-block" to="/debtors">
-                Volver
-              </b-button>
+            <button class="btn btn-lg btn-block" @click="saveDebtorChanges()">
+              Editar
+            </button>
+            <b-button class="btn btn-lg btn-block" to="/debtors">
+              Volver
+            </b-button>
           </div>
         </b-col>
         <b-col></b-col>
@@ -67,13 +64,13 @@
 import axios from "axios";
 
 export default {
-      metaInfo: {
+  metaInfo: {
     title: "Editar Deudor | JuegosMesapp",
   },
   data() {
     return {
       showAlert: false,
-      debtor: []
+      debtor: [],
     };
   },
   created() {
@@ -81,22 +78,19 @@ export default {
     if (this.currentUser.role != "Admin") {
       this.$router.push("/debtors");
     } else {
-      axios
-        .get(`/debtors/edit/${this.$route.params.id}`)
-        .then((response) => {
-          this.debtor = response.data[0];
-        });
-
+      axios.get(`/debtors/edit/${this.$route.params.id}`).then((response) => {
+        this.debtor = response.data[0];
+      });
     }
   },
   methods: {
+    /*
+     * saves changes done on the debtor selected
+     */
     saveDebtorChanges() {
       let self = this;
       axios
-        .post(
-          `/debtors/update/${this.$route.params.id}`,
-          this.debtor
-        )
+        .post(`/debtors/update/${this.$route.params.id}`, this.debtor)
         .then(self.$router.push("/debtors"))
         .catch((err) => {
           console.log(err);

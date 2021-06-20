@@ -67,6 +67,9 @@ export default {
     };
   },
   methods: {
+        /*
+    * Saves the new post
+    */
     savePost() {
       let self = this;
       axios
@@ -80,7 +83,9 @@ export default {
           alert(e);
         });
     },
-
+    /*
+    * gets all users from api
+    */
     getUsers() {
       axios.get("/users").then((data) => {
         this.users = data.data;

@@ -107,7 +107,6 @@
           @filtered="onFiltered"
         >
           <template v-slot:cell(acciones)="data">
-            
             <span v-if="currentUser.role == 'Admin'">
               <div class="btn-group" role="group">
                 <button
@@ -236,16 +235,25 @@ export default {
   },
 
   methods: {
+    /*
+     * Gets all boardgames from api
+     */
     getBoardgames() {
       axios.get(this.url).then((data) => {
         this.items = data.data;
       });
     },
-
+    /*
+    * Takes the user to a view where they can edit the selected boardgame
+    @param idToEdit the id of the boardgame to edit
+    */
     editBoardgame(idToEdit) {
       this.$router.push("/boardgames/edit/" + idToEdit);
     },
-
+    /*
+    * Deletes the selected boardgame
+    @param idToDelete the id of the boardgame to delete
+    */
     deleteBoardgame(idToDelete) {
       if (this.currentUser.role != "Admin") {
         this.$router.push("/users");
@@ -260,6 +268,10 @@ export default {
           });
       }
     },
+    /*
+    * Ask the user for confirmation before deleting
+    @param idToDelete the id of the element to delete
+    */
     confirmarDelete(idToDelete) {
       this.$confirm({
         message: "¿Estás seguro?",
@@ -274,11 +286,19 @@ export default {
         },
       });
     },
+    /*
+    * Changes the paginator depending of the filtered items
+    @param filteredItems boardgames filtered by the search field
+    */
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.rows = filteredItems.length;
       this.currentPage = 1;
     },
+               /*
+    * takes the user to the profile of the selected boardgame 
+    @param idToVisit id of the boardgame you want to visit
+    */
     visitBoardgameProfile(idToVisit) {
       this.$router.push("/boardgames/profile/" + idToVisit);
     },
@@ -294,7 +314,9 @@ export default {
     rows() {
       return this.items.length;
     },
-
+    /*
+     * sorts the current data depending on the search field
+     */
     sortOptions() {
       // Create an options list from our fields
       return this.fields

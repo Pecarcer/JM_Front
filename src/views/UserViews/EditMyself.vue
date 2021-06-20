@@ -25,38 +25,37 @@
         <b-col></b-col>
         <b-col>
           <div class="card">
-            
-              <div class="form-group">
-                <label>Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  v-model="user.email"
-                  class="form-control form-control-lg"
-                />
-              </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                name="email"
+                v-model="user.email"
+                class="form-control form-control-lg"
+              />
+            </div>
 
-              <div class="form-group">
-                <label>Nombre Completo</label>
-                <input
-                  type="text"
-                  name="fullname"
-                  v-model="user.fullname"
-                  class="form-control form-control-lg"
-                />
-              </div>
+            <div class="form-group">
+              <label>Nombre Completo</label>
+              <input
+                type="text"
+                name="fullname"
+                v-model="user.fullname"
+                class="form-control form-control-lg"
+              />
+            </div>
 
-              <div class="form-group">
-                <label>Nick</label>
-                <input
-                  type="text"
-                  name="nick"
-                  v-model="user.nick"
-                  class="form-control form-control-lg"
-                />
-              </div>
+            <div class="form-group">
+              <label>Nick</label>
+              <input
+                type="text"
+                name="nick"
+                v-model="user.nick"
+                class="form-control form-control-lg"
+              />
+            </div>
 
-              <span v-if="currentUser.role=='Admin'">
+            <span v-if="currentUser.role == 'Admin'">
               <div class="form-group">
                 <label>Selecciona rol</label>
                 <select
@@ -67,19 +66,18 @@
                   <option value="Admin">Administrador</option>
                 </select>
               </div>
-              </span>
+            </span>
 
-              <button
-                type="submit"
-                class="btn btn-lg btn-block"
-                @click="saveUserChanges()"
-              >
-                Editar
-              </button>
-              <b-button class="btn btn-lg btn-block" to="/myprofile">
-                Volver
-              </b-button>
-            
+            <button
+              type="submit"
+              class="btn btn-lg btn-block"
+              @click="saveUserChanges()"
+            >
+              Editar
+            </button>
+            <b-button class="btn btn-lg btn-block" to="/myprofile">
+              Volver
+            </b-button>
           </div>
         </b-col>
         <b-col></b-col>
@@ -92,7 +90,7 @@
 import axios from "axios";
 
 export default {
-    metaInfo: {
+  metaInfo: {
     title: "Mi perfil | JuegosMesapp",
   },
   data() {
@@ -100,7 +98,7 @@ export default {
       user: {},
       showAlert: false,
       currentUserId: "",
-      currentUser:''
+      currentUser: "",
     };
   },
   created() {
@@ -110,13 +108,14 @@ export default {
     this.url = "/users/edit/";
     this.url = this.url.concat(this.currentUserId.toString());
 
-    axios
-      .get(this.url)
-      .then((response) => {
-        this.user = response.data;
-      });
+    axios.get(this.url).then((response) => {
+      this.user = response.data;
+    });
   },
   methods: {
+    /*
+     * saves the changes done on your own account
+     */
     saveUserChanges() {
       let self = this;
 

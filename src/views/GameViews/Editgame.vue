@@ -99,21 +99,19 @@ export default {
     if (this.currentUser.role != "Admin") {
       this.$router.push("/games");
     } else {
-      axios
-        .get(`/games/edit/${this.$route.params.id}`)
-        .then((response) => {
-          this.game = response.data[0];
-        });
+      axios.get(`/games/edit/${this.$route.params.id}`).then((response) => {
+        this.game = response.data[0];
+      });
     }
   },
   methods: {
+    /*
+     * saves changes done to the game
+     */
     saveGameChanges() {
       let self = this;
       axios
-        .post(
-          `/games/update/${this.$route.params.id}`,
-          this.game
-        )
+        .post(`/games/update/${this.$route.params.id}`, this.game)
         .then(self.$router.push("/games"))
         .catch((err) => {
           console.log(err);

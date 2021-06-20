@@ -123,22 +123,20 @@ export default {
     if (this.currentUser.role != "Admin") {
       this.$router.push("/users");
     } else {
-      axios
-        .get(`/users/edit/${this.$route.params.id}`)
-        .then((response) => {
-          this.user = response.data;
-          //console.log(response.data);
-        });
+      axios.get(`/users/edit/${this.$route.params.id}`).then((response) => {
+        this.user = response.data;
+        //console.log(response.data);
+      });
     }
   },
   methods: {
+    /*
+     * saves changes done on the user of the profile
+     */
     saveUserChanges() {
       let self = this;
       axios
-        .post(
-          `/users/update/${this.$route.params.id}`,
-          this.user
-        )
+        .post(`/users/update/${this.$route.params.id}`, this.user)
         .then(self.$router.push("/users"))
         .catch((err) => {
           console.log(err);

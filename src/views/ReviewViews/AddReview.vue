@@ -91,6 +91,9 @@ export default {
     };
   },
   methods: {
+    /*
+     * save the new review
+     */
     saveReview() {
       if (this.currentUser.role != "Admin") {
         let self = this;
@@ -120,12 +123,17 @@ export default {
           });
       }
     },
-
+    /*
+     * Gets all the users from the api
+     */
     getUsers() {
       axios.get("/users").then((data) => {
         this.users = data.data;
       });
     },
+    /*
+     * Gets all the boardgames from the api
+     */
     getBoardgames() {
       axios.get("/boardgames").then((data) => {
         this.boardgames = data.data;

@@ -185,12 +185,18 @@ export default {
   },
 
   methods: {
+    /*
+     * Gets all the debtors
+     */
     getDebtors() {
       axios.get(this.url).then((data) => {
         this.items = data.data;
       });
     },
-
+    /*
+    * Takes the user to a view where they can edit the debtor
+    @param idToEdit the id of the debtor to edit
+    */
     editDebtor(idToEdit) {
       this.$router.push("/debtors/edit/" + idToEdit);
     },
@@ -205,6 +211,10 @@ export default {
           alert(e);
         });
     },
+    /*
+    * Ask the user for confirmation before deleting
+    @param idToDelete the id of the element to delete
+    */
     confirmarDelete(idToDelete) {
       this.$confirm({
         message: "¿Estás seguro?",
@@ -219,6 +229,10 @@ export default {
         },
       });
     },
+    /*
+    * Changes the paginator depending
+    @param filteredItems the id of the element to delete
+    */
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.rows = filteredItems.length;
@@ -237,9 +251,12 @@ export default {
 
   created() {
     this.currentUser = JSON.parse(localStorage.user).user;
-    if (this.currentUser.role != "Admin") { this.$router.push("/users"); } else {
-    this.getDebtors();
-    this.rows = this.items.length;}
+    if (this.currentUser.role != "Admin") {
+      this.$router.push("/users");
+    } else {
+      this.getDebtors();
+      this.rows = this.items.length;
+    }
   },
 
   computed: {
@@ -256,7 +273,9 @@ export default {
         this.items.length = newValue;
       },
     },
-
+    /*
+     * sorts the current data depending on the search field
+     */
     sortOptions() {
       // Create an options list from our fields
 

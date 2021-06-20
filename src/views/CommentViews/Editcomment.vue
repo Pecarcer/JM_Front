@@ -77,21 +77,19 @@ export default {
     if (this.currentUser.role != "Admin") {
       this.$router.push("/comments");
     } else {
-      axios
-        .get(`/comments/edit/${this.$route.params.id}`)
-        .then((response) => {
-          this.comment = response.data[0];
-        });
+      axios.get(`/comments/edit/${this.$route.params.id}`).then((response) => {
+        this.comment = response.data[0];
+      });
     }
   },
   methods: {
+    /*
+     * Saves changes done to the comment
+     */
     saveCommentChanges() {
       let self = this;
       axios
-        .post(
-          `/comments/update/${this.$route.params.id}`,
-          this.comment
-        )
+        .post(`/comments/update/${this.$route.params.id}`, this.comment)
         .then(self.$router.push("/comments"))
         .catch((err) => {
           console.log(err);

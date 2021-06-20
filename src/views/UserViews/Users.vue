@@ -261,6 +261,10 @@ export default {
           });
       }
     },
+    /*
+    * Ask the user for confirmation before deleting
+    @param idToDelete the id of the element to delete
+    */
     confirmarDelete(idToDelete) {
       if (this.currentUser.role != "Admin") {
         this.$router.push("/users");
@@ -279,17 +283,31 @@ export default {
         });
       }
     },
+    /*
+    * Changes the paginator depending of the filtered items
+    @param filteredItems users filtered by the search field
+    */
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.rows = filteredItems.length;
       this.currentPage = 1;
     },
+    /*
+    * takes the user to the profile of the selected user
+    @param idToVisit the id of the user you want to visit
+    */
     visitProfile(idToVisit) {
       this.$router.push("/users/profile/" + idToVisit);
     },
+    /*
+     * takes the user to their profile
+     */
     visitOwnProfile() {
       this.$router.push("/myprofile");
     },
+    /*
+     * takes the user to the edit view of their profile
+     */
     goEditSelf() {
       this.$router.push("/editMyself");
     },
@@ -315,7 +333,9 @@ export default {
         this.items.length = newValue;
       },
     },
-
+    /*
+     * sorts the current data depending on the search field
+     */
     sortOptions() {
       // Create an options list from our fields
 

@@ -140,11 +140,10 @@
         </b-table>
       </b-row>
     </b-container>
-    
-      <b-button type="button" to="/addreview" class="newbtn">
-        Añadir Reseña
-      </b-button>
-    
+
+    <b-button type="button" to="/addreview" class="newbtn">
+      Añadir Reseña
+    </b-button>
   </div>
 </template>
 
@@ -238,6 +237,10 @@ export default {
           });
       }
     },
+    /*
+    * Ask the user for confirmation before deleting
+    @param idToDelete the id of the element to delete
+    */
     confirmarDelete(idToDelete) {
       this.$confirm({
         message: "¿Estás seguro?",
@@ -252,6 +255,10 @@ export default {
         },
       });
     },
+    /*
+    * Changes the paginator depending of the filtered items
+    @param filteredItems reviews filtered by the search field
+    */
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.rows = filteredItems.length;
@@ -272,7 +279,9 @@ export default {
     rows() {
       return this.items.length;
     },
-
+    /*
+     * sorts the current data depending on the search field
+     */
     sortOptions() {
       // Create an options list from our fields
       return this.fields

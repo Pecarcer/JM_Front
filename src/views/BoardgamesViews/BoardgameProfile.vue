@@ -112,33 +112,36 @@
 
       <b-row>
         <b-col>
-        </b-col>
-      </b-row>
-      <b-row>
-        
-        <b-col>
+          <p>Reseñas</p>
           <div>
             <div id="itemList">
               <div class="blogPost" v-for="item in reviews" :key="item.id">
                 <b-card
-                  :header="'Por ' + item.reviewerName" Success
+                  :header="'Por ' + item.reviewerName"
+                  Success
                   header-tag="header"
                   :title="'Nota: ' + item.score + '/10 '"
-                     class="text-center"
-                     border-variant="success"
-                     header-bg-variant="success"
+                  class="text-center"
+                  border-variant="success"
+                  header-bg-variant="success"
                 >
-                  <b-card-text> "{{ item.opinion }}" <br> <span class="float-right">{{ item.created_at | moment("DD/MM/YYYY") }}</span></b-card-text>
+                  <b-card-text>
+                    "{{ item.opinion }}" <br />
+                    <span class="float-right">{{
+                      item.created_at | moment("DD/MM/YYYY")
+                    }}</span></b-card-text
+                  >
 
-                  <b-button @click="visitReview(item.id)" variant="primary">Ver Reseña</b-button>
+                  <b-button @click="visitReview(item.id)" variant="primary"
+                    >Ver Reseña</b-button
+                  >
                 </b-card>
                 <div class="divider div-transparent div-stopper"></div>
-                <br>
+                <br />
               </div>
             </div>
           </div>
         </b-col>
-        
       </b-row>
     </b-container>
   </div>
@@ -148,10 +151,7 @@
 import axios from "axios";
 import "../../store/index.js";
 
-
 export default {
-
-
   metaInfo: {
     title: "Juego de Mesa | JuegosMesapp",
   },
@@ -163,6 +163,9 @@ export default {
   },
 
   methods: {
+    /*
+     * Gets all reviews of the current boardgame
+     */
     getReviews() {
       this.idToSearch = window.location.pathname.substring(
         window.location.pathname.lastIndexOf("/") + 1
@@ -174,7 +177,10 @@ export default {
         this.reviews = data.data;
       });
     },
-
+    /*
+    * Takes the user to the selected review
+    @param idToVisit the id of the review to visit
+    */
     visitReview(idToVisit) {
       this.$router.push("/reviews/profile/" + idToVisit);
     },
@@ -183,13 +189,10 @@ export default {
   created() {
     this.currentUser = JSON.parse(localStorage.user).user;
 
-    axios
-      .get(`/boardgames/edit/${this.$route.params.id}`)
-      .then((response) => {
-        this.currentBoardgame = response.data;
-      });
+    axios.get(`/boardgames/edit/${this.$route.params.id}`).then((response) => {
+      this.currentBoardgame = response.data;
+    });
     this.getReviews();
-
   },
 
   computed: {},

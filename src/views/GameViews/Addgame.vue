@@ -90,6 +90,9 @@ export default {
     };
   },
   methods: {
+    /*
+     * saves the new game
+     */
     saveGame() {
       if (this.currentUser.role != "Admin") {
         let self = this;
@@ -119,12 +122,17 @@ export default {
           });
       }
     },
-
+    /*
+     * gets all users from api
+     */
     getUsers() {
       axios.get("/users").then((data) => {
         this.users = data.data;
       });
     },
+    /*
+     * gets all boardgames from api
+     */
     getBoardgames() {
       axios.get("/boardgames").then((data) => {
         this.boardgames = data.data;

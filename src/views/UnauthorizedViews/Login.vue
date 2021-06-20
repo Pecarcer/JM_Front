@@ -53,7 +53,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default {
-    metaInfo: {
+  metaInfo: {
     title: "Login | JuegosMesapp",
   },
   data() {
@@ -65,6 +65,9 @@ export default {
   },
 
   methods: {
+    /*
+     * tries to log on the user with the provided credentials
+     */
     login() {
       this.$store
         .dispatch("login", {
@@ -92,7 +95,7 @@ button {
   background-color: green;
   color: white;
 }
-.alert{
+.alert {
   margin: 5px;
 }
 </style>

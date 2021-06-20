@@ -66,8 +66,8 @@
 
     <div class="md-card md-primary md-theme-demo-light" v-else>
       <div>
-        <br>
-        <b-img width='500' height='300' src="@/assets/inicio.png" />
+        <br />
+        <b-img width="500" height="300" src="@/assets/inicio.png" />
         <br /><br /><br />
         <h1>¡Hola!</h1>
         <h2>
@@ -109,9 +109,15 @@ export default {
   },
 
   methods: {
+    /*
+     * This method logs out the current logged user
+     */
     logout() {
       this.$store.dispatch("logout");
     },
+    /*
+     * Gets all the posts from the api
+     */
     getPosts() {
       if (this.isLogged) {
         axios.get(this.url).then((data) => {
@@ -119,9 +125,14 @@ export default {
         });
       }
     },
+    /*
     onPageChanged(page) {
       this.paginate(this.perPage, page - 1);
-    },
+    },*/
+
+    /*
+     * changes the pagination
+     */
     paginate(page_size, page_number) {
       let itemsToParse = this.items;
       this.paginatedItems = itemsToParse.slice(
@@ -133,7 +144,7 @@ export default {
   created() {
     this.currentUser = JSON.parse(localStorage.user).user;
     this.getPosts();
-    this.totalRows = this.items.length;    
+    this.totalRows = this.items.length;
     this.paginate(this.perPage, 0);
   },
 };

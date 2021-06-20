@@ -233,6 +233,9 @@ export default {
   },
 
   methods: {
+    /*
+     * gets all reviews done by the user of the profile
+     */
     getReviews() {
       this.idToSearch = window.location.pathname.substring(
         window.location.pathname.lastIndexOf("/") + 1
@@ -244,6 +247,9 @@ export default {
         this.reviews = data.data;
       });
     },
+    /*
+     * gets all games created by the user of the profile
+     */
     getGamesByUser() {
       this.idToSearch = window.location.pathname.substring(
         window.location.pathname.lastIndexOf("/") + 1
@@ -257,6 +263,9 @@ export default {
         this.gamesByUser = data.data;
       });
     },
+    /*
+     * gets all games where the user of the profile has participated
+     */
     getGamesWithUser() {
       this.idToSearch = window.location.pathname.substring(
         window.location.pathname.lastIndexOf("/") + 1
@@ -270,6 +279,10 @@ export default {
         this.gamesWithUser = data.data;
       });
     },
+    /*
+    * takes the user to the profile of the selected boardgame
+    @param  idToVisit the id of the boardgame to visit
+    */
     visitGamePage(idToVisit) {
       this.$router.push("/boardgames/profile/" + idToVisit);
     },
@@ -277,11 +290,9 @@ export default {
 
   created() {
     this.currentUser = JSON.parse(localStorage.user).user;
-    axios
-      .get(`/users/edit/${this.$route.params.id}`)
-      .then((response) => {
-        this.profileUser = response.data;
-      });
+    axios.get(`/users/edit/${this.$route.params.id}`).then((response) => {
+      this.profileUser = response.data;
+    });
     this.getReviews();
     this.getGamesByUser();
     this.getGamesWithUser();

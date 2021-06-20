@@ -92,28 +92,29 @@ export default {
     if (this.currentUser.role != "Admin") {
       this.$router.push("/");
     } else {
-      axios
-        .get(`/posts/edit/${this.$route.params.id}`)
-        .then((response) => {
-          this.post = response.data[0];
-        });
+      axios.get(`/posts/edit/${this.$route.params.id}`).then((response) => {
+        this.post = response.data[0];
+      });
       this.getUsers();
     }
   },
   methods: {
+    /*
+     * save changes done on current post
+     */
     savePostChanges() {
       let self = this;
       axios
-        .post(
-          `/posts/update/${this.$route.params.id}`,
-          this.post
-        )
+        .post(`/posts/update/${this.$route.params.id}`, this.post)
         .then(self.$router.push("/posts"))
         .catch((err) => {
           console.log(err);
           this.showAlert = true;
         });
     },
+    /*
+     * get all users from api
+     */
     getUsers() {
       axios.get("/users").then((data) => {
         this.users = data.data;

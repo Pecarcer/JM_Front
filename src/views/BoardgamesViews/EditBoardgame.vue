@@ -147,6 +147,9 @@ export default {
     }
   },
   methods: {
+    /*
+    * Saves the changes donde to the boardgame
+    */
     saveBoardgameChanges() {
       let self = this;
       axios

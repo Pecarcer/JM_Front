@@ -106,23 +106,23 @@
           @filtered="onFiltered"
         >
           <template v-slot:cell(acciones)="data">
-            <span v-if="currentUser.role=='Admin'">
-            <div class="btn-group" role="group">
-              <button class="btn btn-primary" @click="editGame(data.item.id)">
-                Editar
-              </button>
-              <button
-                class="btn btn-danger"
-                @click="confirmarDelete(data.item.id)"
-              >
-                Borrar
-              </button>
-            </div>
+            <span v-if="currentUser.role == 'Admin'">
+              <div class="btn-group" role="group">
+                <button class="btn btn-primary" @click="editGame(data.item.id)">
+                  Editar
+                </button>
+                <button
+                  class="btn btn-danger"
+                  @click="confirmarDelete(data.item.id)"
+                >
+                  Borrar
+                </button>
+              </div>
             </span>
           </template>
-            <template v-slot:cell(date)="data">
-              {{ data.item.date | moment("DD/MM/YYYY") }}
-            </template>
+          <template v-slot:cell(date)="data">
+            {{ data.item.date | moment("DD/MM/YYYY") }}
+          </template>
 
           <template v-slot:cell(verJugadores)="data">
             <button
@@ -228,6 +228,10 @@ export default {
           alert(e);
         });
     },
+    /*
+    * Ask the user for confirmation before deleting
+    @param idToDelete the id of the element to delete
+    */
     confirmarDelete(idToDelete) {
       this.$confirm({
         message: "¿Estás seguro?",
@@ -242,12 +246,19 @@ export default {
         },
       });
     },
+    /*
+    * Changes the paginator depending of the filtered items
+    @param filteredItems games filtered by the search field
+    */
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.rows = filteredItems.length;
       this.currentPage = 1;
     },
-
+    /*
+    * Takes the user to a view where they can see the players of a certain game
+    @param idToVisit the id of the game from which you want to see the players of
+    */
     visitPlayersOf(idToVisit) {
       this.$router.push("/players/of/" + idToVisit);
     },
@@ -263,7 +274,9 @@ export default {
     rows() {
       return this.items.length;
     },
-
+    /*
+     * sorts the current data depending on the search field
+     */
     sortOptions() {
       // Create an options list from our fields
       return this.fields

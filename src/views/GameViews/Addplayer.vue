@@ -30,7 +30,10 @@
             Añadir
           </button>
 
-          <b-button class="btn btn-lg btn-block volver" :to="'/players/of/'+ this.idCurrentGame" >
+          <b-button
+            class="btn btn-lg btn-block volver"
+            :to="'/players/of/' + this.idCurrentGame"
+          >
             Volver
           </b-button>
         </div>
@@ -56,6 +59,9 @@ export default {
     };
   },
   methods: {
+    /*
+     * saves the new player
+     */
     addPlayer() {
       let self = this;
       axios
@@ -68,7 +74,9 @@ export default {
           alert(e);
         });
     },
-
+    /*
+     * gets all users from api
+     */
     getUsers() {
       axios.get("/users").then((data) => {
         this.users = data.data;
@@ -77,12 +85,15 @@ export default {
   },
   created() {
     this.currentUser = JSON.parse(localStorage.user).user;
-    if (this.currentUser.role != "Admin") { this.$router.push("/games"); } else {
-    this.idCurrentGame = window.location.pathname.substring(
-      window.location.pathname.lastIndexOf("/") + 1
-    );
-    this.currentUser = JSON.parse(localStorage.user).user;
-    this.getUsers();}
+    if (this.currentUser.role != "Admin") {
+      this.$router.push("/games");
+    } else {
+      this.idCurrentGame = window.location.pathname.substring(
+        window.location.pathname.lastIndexOf("/") + 1
+      );
+      this.currentUser = JSON.parse(localStorage.user).user;
+      this.getUsers();
+    }
   },
 };
 </script>

@@ -81,7 +81,7 @@
 
 <script>
 export default {
-    metaInfo: {
+  metaInfo: {
     title: "Registro | JuegosMesapp",
   },
   data() {
@@ -96,6 +96,9 @@ export default {
   },
 
   methods: {
+    /*
+     *registers a new user based on the credentials
+     */
     register() {
       this.$store
         .dispatch("register", {

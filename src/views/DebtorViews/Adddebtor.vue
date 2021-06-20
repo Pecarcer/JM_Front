@@ -15,29 +15,29 @@
       <b-col></b-col>
       <b-col>
         <div class="card">
-          
-              <div class="form-group">
-              <label>Usuario</label>
-              <select v-model="user" class="form-control form-control-lg">
-                   <option v-for="item in users" :value="item.id" :key="item.id">{{item.nick}}</option>
-              </select>
-            </div>
+          <div class="form-group">
+            <label>Usuario</label>
+            <select v-model="user" class="form-control form-control-lg">
+              <option v-for="item in users" :value="item.id" :key="item.id">{{
+                item.nick
+              }}</option>
+            </select>
+          </div>
 
-            <div class="form-group">
-              <label>Meses de retraso</label>
-              <input
-                type="text"
-                name="score"
-                v-model="months_overdue"
-                class="form-control form-control-lg"
-              />
-            </div>
+          <div class="form-group">
+            <label>Meses de retraso</label>
+            <input
+              type="text"
+              name="score"
+              v-model="months_overdue"
+              class="form-control form-control-lg"
+            />
+          </div>
 
+          <button class="btn btn-lg btn-block" @click="saveDebtor">
+            Añadir
+          </button>
 
-            <button class="btn btn-lg btn-block" @click="saveDebtor">
-              Añadir
-            </button>
-          
           <b-button class="btn btn-lg btn-block volver" to="/boardgames">
             Volver
           </b-button>
@@ -61,10 +61,12 @@ export default {
       user: "",
       months_overdue: "",
       users: [],
-
     };
   },
   methods: {
+    /*
+     * Saves the new debtor
+     */
     saveDebtor() {
       let self = this;
       axios
@@ -72,25 +74,28 @@ export default {
           user: this.user,
           months_overdue: this.months_overdue,
         })
-        .then(
-            self.$router.push("/debtors")
-            )
+        .then(self.$router.push("/debtors"))
         .catch((e) => {
           alert(e);
         });
     },
-
+    /*
+    * Gets all the users
+    @param idToDelete the id of the element to delete
+    */
     getUsers() {
       axios.get("/users").then((data) => {
         this.users = data.data;
       });
     },
-
   },
   created() {
     this.currentUser = JSON.parse(localStorage.user).user;
-    if (this.currentUser.role != "Admin") { this.$router.push("/users"); } else {
-    this.getUsers();}
+    if (this.currentUser.role != "Admin") {
+      this.$router.push("/users");
+    } else {
+      this.getUsers();
+    }
   },
 };
 </script>

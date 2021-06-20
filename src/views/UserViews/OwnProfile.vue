@@ -26,7 +26,7 @@
             </b-card-text>
           </b-card>
 
-           <b-card
+          <b-card
             tag="article"
             style="max-width: 20rem;"
             class="mb-2"
@@ -44,9 +44,7 @@
             bg-variant="success"
           >
             <b-card-text>
-              Nombre <span class="valor"
-                >{{ this.currentUser.fullname }}
-              </span>
+              Nombre <span class="valor">{{ this.currentUser.fullname }} </span>
             </b-card-text>
           </b-card>
 
@@ -230,6 +228,9 @@ export default {
   },
 
   methods: {
+    /*
+     * gets all reviews done by the current user
+     */
     getReviews() {
       this.idToSearch = this.currentUser.id;
       this.urlReviews = "/reviews/madeby/";
@@ -239,6 +240,10 @@ export default {
         this.reviews = data.data;
       });
     },
+    /*
+     * gets all games created by the current user
+     */
+
     getGamesByUser() {
       this.idToSearch = this.currentUser.id;
       this.urlGamesByUser = "/games/madeby/";
@@ -250,6 +255,9 @@ export default {
         this.gamesByUser = data.data;
       });
     },
+    /*
+     * gets all games where the current user has participated
+     */
     getGamesWithUser() {
       this.idToSearch = this.currentUser.id;
       this.urlGamesWithUser = "/players/with/";
@@ -261,9 +269,13 @@ export default {
         this.gamesWithUser = data.data;
       });
     },
-    visitGamePage(idToVisit){
+    /*
+    * takes the user to the profile of the selected boardgame
+    @param  idToVisit the id of the boardgame to visit
+    */
+    visitGamePage(idToVisit) {
       this.$router.push("/boardgames/profile/" + idToVisit);
-    }
+    },
   },
 
   created() {

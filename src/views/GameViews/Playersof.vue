@@ -99,25 +99,27 @@
           @filtered="onFiltered"
         >
           <template v-slot:cell(acciones)="data">
-            <span v-if="currentUser.role=='Admin'">
-            <div class="btn-group" role="group">
-              <button
-                class="btn btn-danger"
-                @click="confirmarDelete(data.item.id)"
-              >
-                Eliminar
-              </button>
-            </div></span>
+            <span v-if="currentUser.role == 'Admin'">
+              <div class="btn-group" role="group">
+                <button
+                  class="btn btn-danger"
+                  @click="confirmarDelete(data.item.id)"
+                >
+                  Eliminar
+                </button>
+              </div></span
+            >
           </template>
         </b-table>
       </b-row>
     </b-container>
     <b-row>
       <b-col>
-        <span v-if="currentUser.role=='Admin'">
-        <b-button type="button" @click="addPlayer()" class="newbtn">
-          Añadir Jugador
-        </b-button></span>
+        <span v-if="currentUser.role == 'Admin'">
+          <b-button type="button" @click="addPlayer()" class="newbtn">
+            Añadir Jugador
+          </b-button></span
+        >
         <b-button to="/games">
           Volver
         </b-button>
@@ -189,7 +191,10 @@ export default {
           alert(e);
         });
     },
-
+    /*
+    * Ask the user for confirmation before deleting
+    @param idToDelete the id of the element to delete
+    */
     confirmarDelete(idToDelete) {
       this.$confirm({
         message: "¿Estás seguro?",
@@ -204,11 +209,18 @@ export default {
         },
       });
     },
+    /*
+    * Changes the paginator depending of the filtered items
+    @param filteredItems comments filtered by the search field
+    */
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.rows = filteredItems.length;
       this.currentPage = 1;
     },
+    /*
+     * takes you to a view to add a new player to the current game
+     */
     addPlayer() {
       this.idCurrentGame = window.location.pathname.substring(
         window.location.pathname.lastIndexOf("/") + 1
@@ -240,7 +252,9 @@ export default {
         this.items.length = newValue;
       },
     },
-
+    /*
+     * sorts the current data depending on the search field
+     */
     sortOptions() {
       // Create an options list from our fields
 

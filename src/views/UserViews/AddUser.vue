@@ -105,6 +105,9 @@ export default {
     };
   },
   methods: {
+            /*
+    * saves the new user
+    */
     saveUser() {
       let self = this;
       axios

@@ -123,12 +123,15 @@
             </div>
           </template>
 
-            <template v-slot:cell(created_at)="data">
-              {{ data.item.created_at | moment("DD/MM/YYYY") }}
-            </template>
+          <template v-slot:cell(created_at)="data">
+            {{ data.item.created_at | moment("DD/MM/YYYY") }}
+          </template>
 
           <template v-slot:cell(verResena)="data">
-            <button class="btn btn-success" @click="visitReview(data.item.review_id)">
+            <button
+              class="btn btn-success"
+              @click="visitReview(data.item.review_id)"
+            >
               Ver
             </button>
           </template>
@@ -172,22 +175,22 @@ export default {
           key: "commentary",
           sortable: false,
           tdClass: "thead",
-          label: "Comentario"
+          label: "Comentario",
         },
-     
+
         {
           key: "created_at",
           sortable: true,
           label: "Fecha",
           tdClass: "thead",
         },
-           {
+        {
           key: "verResena",
           sortable: false,
           label: "Reseña",
           tdClass: "thead",
         },
-    
+
         {
           key: "acciones",
           sortable: false,
@@ -199,16 +202,25 @@ export default {
   },
 
   methods: {
+    /*
+     * Gets all the comments from the api
+     */
     getComments() {
       axios.get(this.url).then((data) => {
         this.items = data.data;
       });
     },
-
+    /*
+    * Takes the user to a view where they can edit the selected comment
+    @param idToEdit the id of the element to edit
+    */
     editComment(idToEdit) {
       this.$router.push("/comments/edit/" + idToEdit);
     },
-
+    /*
+    * Deletes the selected comment
+    @param idToDelete the id of the element to delete
+    */
     deleteComment(idToDelete) {
       axios
         .delete("/comments/delete/" + idToDelete)
@@ -219,6 +231,10 @@ export default {
           alert(e);
         });
     },
+    /*
+    * Ask the user for confirmation before deleting
+    @param idToDelete the id of the element to delete
+    */
     confirmarDelete(idToDelete) {
       this.$confirm({
         message: "¿Estás seguro?",
@@ -233,11 +249,19 @@ export default {
         },
       });
     },
+    /*
+    * Changes the paginator depending of the filtered items
+    @param filteredItems comments filtered by the search field
+    */
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.rows = filteredItems.length;
       this.currentPage = 1;
     },
+    /*
+    *Takes the user to the profile of the selected review
+    @param idToVisit the id of the review to see
+    */
     visitReview(idToVisit) {
       this.$router.push("/reviews/profile/" + idToVisit);
     },
@@ -245,9 +269,12 @@ export default {
 
   created() {
     this.currentUser = JSON.parse(localStorage.user).user;
-    if (this.currentUser.role != "Admin") { this.$router.push("/"); } else {
-    this.getComments();
-    this.rows = this.items.length;}    
+    if (this.currentUser.role != "Admin") {
+      this.$router.push("/");
+    } else {
+      this.getComments();
+      this.rows = this.items.length;
+    }
   },
 
   computed: {
@@ -264,7 +291,9 @@ export default {
         this.items.length = newValue;
       },
     },
-
+    /*
+     * sorts the current data depending on the search field
+     */
     sortOptions() {
       // Create an options list from our fields
 
